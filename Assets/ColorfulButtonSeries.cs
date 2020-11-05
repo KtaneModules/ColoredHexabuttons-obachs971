@@ -2378,7 +2378,8 @@ public class ColorfulButtonSeries : MonoBehaviour
 		string[] param = command.ToUpper().Split(' ');
 		if ((Regex.IsMatch(param[0], @"^\s*HOVER\s*$", RegexOptions.IgnoreCase | RegexOptions.CultureInvariant) || Regex.IsMatch(param[0], @"^\s*H\s*$", RegexOptions.IgnoreCase | RegexOptions.CultureInvariant)) || Regex.IsMatch(param[0], @"^\s*CYCLE\s*$", RegexOptions.IgnoreCase | RegexOptions.CultureInvariant) || Regex.IsMatch(param[0], @"^\s*C\s*$", RegexOptions.IgnoreCase | RegexOptions.CultureInvariant))
 		{
-			for(int aa = 0; aa < 7; aa++)
+			yield return null;
+			for (int aa = 0; aa < 7; aa++)
 			{
 				hexButtons[aa].OnHighlight();
 				yield return new WaitForSeconds(1.5f);
@@ -2414,7 +2415,7 @@ public class ColorfulButtonSeries : MonoBehaviour
 			}
 			if(flag)
 			{
-				yield return new WaitForSeconds(0f);
+				yield return null;
 				for (int i = 1; i < param.Length; i++)
 				{
 					int cursor = -1;
