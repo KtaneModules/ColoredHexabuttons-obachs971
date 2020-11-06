@@ -14,8 +14,15 @@ MonoBehaviour:
   id: coloredHexabuttons
   title: Colored Hexabuttons
   author: Sean
-  description: "Github: \nTemp Manual: \n\nA return to classic mechanics in my opinion
-    makes the game for what it is today."
+  description: 'Github: https://github.com/obachs971/ColoredHexabuttons
+
+    Temp Manual: http://66.195.8.98/~obachs971/Manuals/Colored%20Hexabuttons.html
+
+
+    A return to classic mechanics in my opinion makes the game for what it is today.
+
+
+    Manual Idea and Module Implementation: Sean Obach'
   version: 1.0
   outputFolder: build
-  previewImage: {fileID: 2800000, guid: 692ed29d43c96344c9b34e9a53f25999, type: 3}
+  previewImage: {fileID: 2800000, guid: a85533fe034e43c4597a21fe68470b31, type: 3}
