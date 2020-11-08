@@ -140,12 +140,33 @@ public class ColorfulButtonSeries : MonoBehaviour
 		new string[] {"W", "W", "W", "W", "W", "W", "W", "W", "W", "W", "W", "22", "W", "W", "W", "W", "W", "W", "W", "W", "W", "W", "W"},
 		new string[] {"W", "W", "W", "W", "W", "W", "W", "W", "W", "W", "W", "W", "W", "W", "W", "W", "W", "W", "W", "W", "W", "W", "W"},
 };
+	/*
+	 * __________________________
+	 * | RULE SEED SUPPORT INFO |
+	 * --------------------------
+	 * For any one that wants to implement ruleseed support for this module. Here's what I think can be done to implement it:
+	 *
+	 *RED: Get all possible permutations of 123456 with 1 being in the first position. Substring so that each number (123456) gets an equal amount of being the first position. 
+	 *
+	 *ORANGE: A huge word list, pick only 230 out of the what ever amount we have in the word list. Make sure no word is an anagram of another word.
+	 * 
+	 *YELLOW: Randomize the priority list as well as the maze and the numbers.
+	 * 
+	 *GREEN: There are 462 different combinations of the notes with no duplicates. Randomize that with the number of permutations of 123456 to get positions of each note.
+	 * 
+	 *BLUE: Randomize which symbol relates to which movement. Randomize the values of the movements.
+	 * 
+	 *PURPLE: Randomize the characters that relate to which 2 bits.
+	 * 
+	 *WHITE: Randomize the instruction chart.
+	 */
 	void Awake()
     {
 		TPOrder = "0123456";
 		moduleId = moduleIdCounter++;
 		moduleSolved = false;
 		colorIndex = UnityEngine.Random.Range(0, 7);
+		//colorIndex = 4;
 		for(int aa = 0; aa < 7; aa++)
 		{
 			buttonMesh[aa].material = buttonColors[colorIndex];
@@ -1494,18 +1515,22 @@ public class ColorfulButtonSeries : MonoBehaviour
 		blueRotations = new int[6];
 		blueSolution = new int[6];
 		blueButtonValues = new int[6];
+		//int[] debugrot = {10, 8, 20, 16, 2, 23};
 		for(int aa = 0; aa < 6; aa++)
 		{
 			blueRotations[aa] = num.PickRandom();
+			//blueRotations[aa] = debugrot[aa];
 			blueSolution[aa] = blueRotations[aa] + 0;
 			num.Remove(blueRotations[aa]);
 		}
 		Array.Sort(blueSolution);
 		string temp = "012345";
 		blueButtonText = "";
+		//string debugtext = "520431";
 		for(int aa = 0; aa < 6; aa++)
 		{
 			int n = temp[UnityEngine.Random.Range(0, temp.Length)] - '0';
+			//int n = debugtext[aa] - '0';
 			blueButtonText = blueButtonText + "" + order[n + (UnityEngine.Random.Range(0, 6) * 6)];
 			buttonText[aa].text = blueButtonText[aa] + "";
 			blueButtonValues[aa] = blueRotations[n] + 0;
