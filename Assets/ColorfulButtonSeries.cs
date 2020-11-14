@@ -1,4 +1,5 @@
-﻿using System;
+﻿using Newtonsoft.Json;
+using System;
 using System;
 using System.Collections;
 using System.Collections.Generic;
@@ -7,6 +8,17 @@ using UnityEngine;
 
 public class ColorfulButtonSeries : MonoBehaviour
 {
+	public class ColoredHexabuttonsSettings
+	{
+		public bool red = true;
+		public bool orange = true;
+		public bool yellow = true;
+		public bool green = true;
+		public bool blue = true;
+		public bool purple = true;
+		public bool white = true;
+	}
+
 	private static int moduleIdCounter;
 	private int moduleId;
 
@@ -162,12 +174,15 @@ public class ColorfulButtonSeries : MonoBehaviour
 	 */
 	void Awake()
     {
+		//All of this needs to stay in the Awake Method.
 		TPOrder = "0123456";
 		moduleId = moduleIdCounter++;
 		moduleSolved = false;
-		colorIndex = UnityEngine.Random.Range(0, 7);
-		//colorIndex = 4;
-		for(int aa = 0; aa < 7; aa++)
+		ModConfig<ColoredHexabuttonsSettings> modConfig = new ModConfig<ColoredHexabuttonsSettings>("ColoredHexabuttonsSettings");
+		string colorChoices = FindColors(modConfig);
+		colorIndex = colorChoices[UnityEngine.Random.Range(0, colorChoices.Length)] - '0';
+		//colorIndex = 6;
+		for (int aa = 0; aa < 7; aa++)
 		{
 			buttonMesh[aa].material = buttonColors[colorIndex];
 			ledLights[aa].enabled = false;
@@ -198,10 +213,6 @@ public class ColorfulButtonSeries : MonoBehaviour
 				white();
 				break;
 		}
-	}
-	void Start()
-	{
-
 	}
 	void red()
 	{
@@ -2325,6 +2336,7 @@ public class ColorfulButtonSeries : MonoBehaviour
 	{
 		if(!(moduleSolved))
 		{
+			Debug.LogFormat("[Colored Hexabuttons #{0}] User pressed {1} which is the color {2}", moduleId, positions[n], whiteBHC[n]);
 			Audio.PlayGameSoundAtTransform(KMSoundOverride.SoundEffect.ButtonPress, transform);
 			if(whiteSolution[numButtonPresses] == whiteBHC[n])
 			{
@@ -2345,6 +2357,7 @@ public class ColorfulButtonSeries : MonoBehaviour
 			}
 			else
 			{
+				Debug.LogFormat("[Colored Hexabuttons #{0}] Strike! I was expecting {1} which is the color {2}", moduleId, positions[whiteBHC.IndexOf(whiteSolution[numButtonPresses])], whiteSolution[numButtonPresses]);
 				module.HandleStrike();
 				Audio.PlayGameSoundAtTransform(KMSoundOverride.SoundEffect.Strike, transform);
 				foreach (int i in buttonIndex)
@@ -2394,22 +2407,54 @@ public class ColorfulButtonSeries : MonoBehaviour
 			n += m;
 		return (n % m);
 	}
+	string FindColors(ModConfig<ColoredHexabuttonsSettings> modConfig)
+	{
+		var settings = modConfig.Read();
+		if (settings != null)
+		{
+			string colors = "";
+			if (settings.red)
+				colors = colors + "0";
+			if (settings.orange)
+				colors = colors + "1";
+			if (settings.yellow)
+				colors = colors + "2";
+			if (settings.green)
+				colors = colors + "3";
+			if (settings.blue)
+				colors = colors + "4";
+			if (settings.purple)
+				colors = colors + "5";
+			if (settings.white)
+				colors = colors + "6";
+			if (colors.Length == 0)
+				return "0123456";
+			else
+				return colors;
+		}
+		else return "0123456";
+	}
 #pragma warning disable 414
-	private readonly string TwitchHelpMessage = @"!{0} press|p tl/1 tr/2 ml/3 mr/4 bl/5 br/6 c/7 presses the top-left, top-right, middle-left, middle-right, bottom-left, bottom-right and center buttons in that order. !{0} hover|cycle|h|c will hover over the buttons in tl, tr, ml, mr, bl, br, c order.";
+	private readonly string TwitchHelpMessage = @"!{0} press|p tl/1 tr/2 ml/3 mr/4 bl/5 br/6 c/7 presses the top-left, top-right, middle-left, middle-right, bottom-left, bottom-right and center buttons in that order. !{0} hover|cycle will hover over the buttons in tl, tr, ml, mr, bl, br, c order.";
 #pragma warning restore 414
 	IEnumerator ProcessTwitchCommand(string command)
 	{
-		
 		string[] param = command.ToUpper().Split(' ');
-		if ((Regex.IsMatch(param[0], @"^\s*HOVER\s*$", RegexOptions.IgnoreCase | RegexOptions.CultureInvariant) || Regex.IsMatch(param[0], @"^\s*H\s*$", RegexOptions.IgnoreCase | RegexOptions.CultureInvariant)) || Regex.IsMatch(param[0], @"^\s*CYCLE\s*$", RegexOptions.IgnoreCase | RegexOptions.CultureInvariant) || Regex.IsMatch(param[0], @"^\s*C\s*$", RegexOptions.IgnoreCase | RegexOptions.CultureInvariant))
+		if ((Regex.IsMatch(param[0], @"^\s*HOVER\s*$", RegexOptions.IgnoreCase | RegexOptions.CultureInvariant) || Regex.IsMatch(param[0], @"^\s*CYCLE\s*$", RegexOptions.IgnoreCase | RegexOptions.CultureInvariant)))
 		{
-			yield return null;
-			for (int aa = 0; aa < 7; aa++)
+			if (hexButtons[0].OnHighlightEnded != null)
 			{
-				hexButtons[aa].OnHighlight();
-				yield return new WaitForSeconds(1.5f);
-				hexButtons[aa].OnHighlightEnded();
+				yield return null;
+				for (int aa = 0; aa < 7; aa++)
+				{
+
+					hexButtons[aa].OnHighlight();
+					yield return new WaitForSeconds(1.5f);
+					hexButtons[aa].OnHighlightEnded();
+				}
 			}
+			else
+				yield return "sendtochat This color doesn't have that feature.";
 		}
 		else if ((Regex.IsMatch(param[0], @"^\s*PRESS\s*$", RegexOptions.IgnoreCase | RegexOptions.CultureInvariant) || Regex.IsMatch(param[0], @"^\s*P\s*$", RegexOptions.IgnoreCase | RegexOptions.CultureInvariant)) && param.Length > 1)
 		{
