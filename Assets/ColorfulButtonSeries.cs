@@ -1519,7 +1519,7 @@ public class ColorfulButtonSeries : MonoBehaviour
 		Debug.LogFormat("[Colored Hexabuttons #{0}] Color Generated: Blue", moduleId);
 		numButtonPresses = 0;
 		greenSwitch = true;
-		string order = "ζ☮υΞτβΓσΛΣ♥ΩγνλψιωηρδΨακξεΔθφποΠμχς∞";
+		string order = "ζ¢υΞτβΓσΛΣ$Ωγνλ£ιωηρδΨακξεΔθφποΠμχς∞";
 		List<int> num = new List<int>();
 		for (int aa = 0; aa < 28; aa++)
 			num.Add(aa);
