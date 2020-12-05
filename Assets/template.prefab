@@ -2480,8 +2480,8 @@ Light:
   serializedVersion: 8
   m_Type: 2
   m_Color: {r: 1, g: 1, b: 1, a: 1}
-  m_Intensity: 100
-  m_Range: 0.006
+  m_Intensity: 20
+  m_Range: 0.013
   m_SpotAngle: 30
   m_CookieSize: 10
   m_Shadows:
@@ -2493,7 +2493,7 @@ Light:
     m_NormalBias: 0.4
     m_NearPlane: 0.2
   m_Cookie: {fileID: 0}
-  m_DrawHalo: 0
+  m_DrawHalo: 1
   m_Flare: {fileID: 0}
   m_RenderMode: 0
   m_CullingMask:
@@ -2529,7 +2529,7 @@ Light:
     m_NormalBias: 0.4
     m_NearPlane: 0.2
   m_Cookie: {fileID: 0}
-  m_DrawHalo: 0
+  m_DrawHalo: 1
   m_Flare: {fileID: 0}
   m_RenderMode: 0
   m_CullingMask:
@@ -2552,8 +2552,8 @@ Light:
   serializedVersion: 8
   m_Type: 2
   m_Color: {r: 1, g: 1, b: 1, a: 1}
-  m_Intensity: 100
-  m_Range: 0.006
+  m_Intensity: 20
+  m_Range: 0.013
   m_SpotAngle: 30
   m_CookieSize: 10
   m_Shadows:
@@ -2565,7 +2565,7 @@ Light:
     m_NormalBias: 0.4
     m_NearPlane: 0.2
   m_Cookie: {fileID: 0}
-  m_DrawHalo: 0
+  m_DrawHalo: 1
   m_Flare: {fileID: 0}
   m_RenderMode: 0
   m_CullingMask:
@@ -2589,7 +2589,7 @@ Light:
   m_Type: 2
   m_Color: {r: 0, g: 1, b: 0, a: 1}
   m_Intensity: 10
-  m_Range: 0.004
+  m_Range: 0.01
   m_SpotAngle: 30
   m_CookieSize: 10
   m_Shadows:
@@ -2625,7 +2625,7 @@ Light:
   m_Type: 2
   m_Color: {r: 0, g: 1, b: 0, a: 1}
   m_Intensity: 10
-  m_Range: 0.004
+  m_Range: 0.01
   m_SpotAngle: 30
   m_CookieSize: 10
   m_Shadows:
@@ -2661,7 +2661,7 @@ Light:
   m_Type: 2
   m_Color: {r: 0, g: 1, b: 0, a: 1}
   m_Intensity: 10
-  m_Range: 0.004
+  m_Range: 0.01
   m_SpotAngle: 30
   m_CookieSize: 10
   m_Shadows:
@@ -2696,8 +2696,8 @@ Light:
   serializedVersion: 8
   m_Type: 2
   m_Color: {r: 1, g: 1, b: 1, a: 1}
-  m_Intensity: 100
-  m_Range: 0.006
+  m_Intensity: 20
+  m_Range: 0.013
   m_SpotAngle: 30
   m_CookieSize: 10
   m_Shadows:
@@ -2709,7 +2709,7 @@ Light:
     m_NormalBias: 0.4
     m_NearPlane: 0.2
   m_Cookie: {fileID: 0}
-  m_DrawHalo: 0
+  m_DrawHalo: 1
   m_Flare: {fileID: 0}
   m_RenderMode: 0
   m_CullingMask:
@@ -2732,8 +2732,8 @@ Light:
   serializedVersion: 8
   m_Type: 2
   m_Color: {r: 1, g: 1, b: 1, a: 1}
-  m_Intensity: 100
-  m_Range: 0.006
+  m_Intensity: 20
+  m_Range: 0.013
   m_SpotAngle: 30
   m_CookieSize: 10
   m_Shadows:
@@ -2745,7 +2745,7 @@ Light:
     m_NormalBias: 0.4
     m_NearPlane: 0.2
   m_Cookie: {fileID: 0}
-  m_DrawHalo: 0
+  m_DrawHalo: 1
   m_Flare: {fileID: 0}
   m_RenderMode: 0
   m_CullingMask:
@@ -2769,7 +2769,7 @@ Light:
   m_Type: 2
   m_Color: {r: 0, g: 1, b: 0, a: 1}
   m_Intensity: 10
-  m_Range: 0.004
+  m_Range: 0.01
   m_SpotAngle: 30
   m_CookieSize: 10
   m_Shadows:
@@ -2805,7 +2805,7 @@ Light:
   m_Type: 2
   m_Color: {r: 0, g: 1, b: 0, a: 1}
   m_Intensity: 10
-  m_Range: 0.004
+  m_Range: 0.01
   m_SpotAngle: 30
   m_CookieSize: 10
   m_Shadows:
@@ -2841,7 +2841,7 @@ Light:
   m_Type: 2
   m_Color: {r: 0, g: 1, b: 0, a: 1}
   m_Intensity: 10
-  m_Range: 0.004
+  m_Range: 0.01
   m_SpotAngle: 30
   m_CookieSize: 10
   m_Shadows:
@@ -2876,8 +2876,8 @@ Light:
   serializedVersion: 8
   m_Type: 2
   m_Color: {r: 1, g: 1, b: 1, a: 1}
-  m_Intensity: 100
-  m_Range: 0.006
+  m_Intensity: 20
+  m_Range: 0.013
   m_SpotAngle: 30
   m_CookieSize: 10
   m_Shadows:
@@ -2889,7 +2889,7 @@ Light:
     m_NormalBias: 0.4
     m_NearPlane: 0.2
   m_Cookie: {fileID: 0}
-  m_DrawHalo: 0
+  m_DrawHalo: 1
   m_Flare: {fileID: 0}
   m_RenderMode: 0
   m_CullingMask:
@@ -2912,8 +2912,8 @@ Light:
   serializedVersion: 8
   m_Type: 2
   m_Color: {r: 1, g: 1, b: 1, a: 1}
-  m_Intensity: 100
-  m_Range: 0.006
+  m_Intensity: 20
+  m_Range: 0.013
   m_SpotAngle: 30
   m_CookieSize: 10
   m_Shadows:
@@ -2925,7 +2925,7 @@ Light:
     m_NormalBias: 0.4
     m_NearPlane: 0.2
   m_Cookie: {fileID: 0}
-  m_DrawHalo: 0
+  m_DrawHalo: 1
   m_Flare: {fileID: 0}
   m_RenderMode: 0
   m_CullingMask:

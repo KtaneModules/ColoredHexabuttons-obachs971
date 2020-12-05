@@ -182,13 +182,6 @@ public class ColorfulButtonSeries : MonoBehaviour
 		string colorChoices = FindColors(modConfig);
 		colorIndex = colorChoices[UnityEngine.Random.Range(0, colorChoices.Length)] - '0';
 		//colorIndex = 6;
-		for (int aa = 0; aa < 7; aa++)
-		{
-			buttonMesh[aa].material = buttonColors[colorIndex];
-			ledLights[aa].enabled = false;
-			if (aa < 6)
-				flashLights[aa].enabled = false;
-		}
 		switch (colorIndex)
 		{
 			case 0:
@@ -212,6 +205,21 @@ public class ColorfulButtonSeries : MonoBehaviour
 			default:
 				white();
 				break;
+		}
+	}
+	void Start()
+	{
+		float scalar = transform.lossyScale.x;
+		for (int aa = 0; aa < 7; aa++)
+		{
+			buttonMesh[aa].material = buttonColors[colorIndex];
+			ledLights[aa].enabled = false;
+			ledLights[aa].range *= scalar;
+			if (aa < 6)
+			{
+				flashLights[aa].enabled = false;
+				flashLights[aa].range *= scalar;
+			}
 		}
 	}
 	void red()
