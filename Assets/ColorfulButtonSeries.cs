@@ -18,7 +18,7 @@ public class ColorfulButtonSeries : MonoBehaviour
 		public bool purple = true;
 		public bool white = true;
 	}
-
+	bool ZenModeActive;
 	private static int moduleIdCounter;
 	private int moduleId;
 
@@ -44,6 +44,8 @@ public class ColorfulButtonSeries : MonoBehaviour
 	public MeshFilter[] shapes;
 	public AudioClip[] notes;
 	private string TPOrder;
+	private int TPScore;
+	private bool TPSwitch;
 	private float[][] shapeSizes =
 	{
 		new float[]{0.046f, 0.00323f, 0.046f},//Circle
@@ -176,6 +178,7 @@ public class ColorfulButtonSeries : MonoBehaviour
     {
 		//All of this needs to stay in the Awake Method.
 		TPOrder = "0123456";
+		TPSwitch = true;
 		moduleId = moduleIdCounter++;
 		moduleSolved = false;
 		ModConfig<ColoredHexabuttonsSettings> modConfig = new ModConfig<ColoredHexabuttonsSettings>("ColoredHexabuttonsSettings");
@@ -185,24 +188,31 @@ public class ColorfulButtonSeries : MonoBehaviour
 		switch (colorIndex)
 		{
 			case 0:
+				TPScore = 4;
 				red();
 				break;
 			case 1:
 				orange();
+				TPScore = 8;
 				break;
 			case 2:
+				TPScore = 9;
 				yellow();
 				break;
 			case 3:
+				TPScore = 8;
 				green();
 				break;
 			case 4:
+				TPScore = 11;
 				blue();
 				break;
 			case 5:
+				TPScore = 10;
 				purple();
 				break;
 			default:
+				TPScore = 8;
 				white();
 				break;
 		}
@@ -221,6 +231,8 @@ public class ColorfulButtonSeries : MonoBehaviour
 				flashLights[aa].range *= scalar;
 			}
 		}
+		if (ZenModeActive)
+			TPSwitch = false;
 	}
 	void red()
 	{
@@ -1441,8 +1453,8 @@ public class ColorfulButtonSeries : MonoBehaviour
 				ledMesh[n].material = ledColors[1];
 				if(numButtonPresses == 6)
 				{
-					moduleSolved = true;
 					greenSwitch = false;
+					moduleSolved = true;
 					module.HandlePass();
 				}
 			}
@@ -2332,6 +2344,7 @@ public class ColorfulButtonSeries : MonoBehaviour
 			numButtonPresses = 0;
 			hexButtons[6].OnHighlight = null;
 			hexButtons[6].OnHighlightEnded = null;
+			buttonMesh[6].material = buttonColors["ROYGBP".IndexOf(whiteBHC[6])];
 			Audio.PlayGameSoundAtTransform(KMSoundOverride.SoundEffect.ButtonPress, transform);
 			Vector3 pos = buttonMesh[6].transform.localPosition;
 			pos.y = 0.0126f;
@@ -2354,6 +2367,7 @@ public class ColorfulButtonSeries : MonoBehaviour
 				hexButtons[n].OnInteract = null;
 				hexButtons[n].OnHighlight = null;
 				hexButtons[n].OnHighlightEnded = null;
+				buttonMesh[n].material = buttonColors["ROYGBP".IndexOf(whiteBHC[n])];
 				ledMesh[n].material = ledColors[1];
 				ledLights[n].enabled = true;
 				numButtonPresses++;
@@ -2450,19 +2464,16 @@ public class ColorfulButtonSeries : MonoBehaviour
 		string[] param = command.ToUpper().Split(' ');
 		if ((Regex.IsMatch(param[0], @"^\s*HOVER\s*$", RegexOptions.IgnoreCase | RegexOptions.CultureInvariant) || Regex.IsMatch(param[0], @"^\s*CYCLE\s*$", RegexOptions.IgnoreCase | RegexOptions.CultureInvariant)))
 		{
-			if (hexButtons[0].OnHighlightEnded != null)
+			yield return null;
+			for (int aa = 0; aa < 7; aa++)
 			{
-				yield return null;
-				for (int aa = 0; aa < 7; aa++)
+				if(hexButtons[TPOrder[aa] - '0'].OnHighlight != null)
 				{
-
 					hexButtons[aa].OnHighlight();
 					yield return new WaitForSeconds(1.5f);
 					hexButtons[aa].OnHighlightEnded();
 				}
 			}
-			else
-				yield return "sendtochat This color doesn't have that feature.";
 		}
 		else if ((Regex.IsMatch(param[0], @"^\s*PRESS\s*$", RegexOptions.IgnoreCase | RegexOptions.CultureInvariant) || Regex.IsMatch(param[0], @"^\s*P\s*$", RegexOptions.IgnoreCase | RegexOptions.CultureInvariant)) && param.Length > 1)
 		{
@@ -2528,7 +2539,12 @@ public class ColorfulButtonSeries : MonoBehaviour
 							cursor = 6;
 							break;
 					}
-					if(hexButtons[TPOrder[cursor] - '0'].OnInteract != null)
+					if(TPSwitch)
+					{
+						yield return "awardpointsonsolve " + TPScore;
+						TPSwitch = false;
+					}
+					if (hexButtons[TPOrder[cursor] - '0'].OnInteract != null)
 					{
 						hexButtons[TPOrder[cursor] - '0'].OnInteract();
 						yield return new WaitForSeconds(0.5f);
