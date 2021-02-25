@@ -178,7 +178,7 @@ public class ColorfulButtonSeries : MonoBehaviour
     {
 		//All of this needs to stay in the Awake Method.
 		TPOrder = "0123456";
-		TPSwitch = true;
+		TPSwitch = false;
 		moduleId = moduleIdCounter++;
 		moduleSolved = false;
 		ModConfig<ColoredHexabuttonsSettings> modConfig = new ModConfig<ColoredHexabuttonsSettings>("ColoredHexabuttonsSettings");
@@ -302,7 +302,8 @@ public class ColorfulButtonSeries : MonoBehaviour
 				if (numButtonPresses == 5)
 				{
 					moduleSolved = true;
-					module.HandlePass();
+					if(!(TPSwitch))
+						module.HandlePass();
 				}
 				else
 					numButtonPresses++;
@@ -311,7 +312,6 @@ public class ColorfulButtonSeries : MonoBehaviour
 			{
 				Debug.LogFormat("[Colored Hexabuttons #{0}] Strike! I was expecting {1}!", moduleId, positions[redSolution[numButtonPresses]]);
 				module.HandleStrike();
-				Audio.PlayGameSoundAtTransform(KMSoundOverride.SoundEffect.Strike, transform);
 				for (int aa = 0; aa < 6; aa++)
 				{
 					Vector3 pos = buttonMesh[aa].transform.localPosition;
@@ -568,7 +568,8 @@ public class ColorfulButtonSeries : MonoBehaviour
 				if (numButtonPresses == 5)
 				{
 					moduleSolved = true;
-					module.HandlePass();
+					if (!(TPSwitch))
+						module.HandlePass();
 				}
 				else
 					numButtonPresses++;
@@ -577,7 +578,6 @@ public class ColorfulButtonSeries : MonoBehaviour
 			{
 				Debug.LogFormat("[Colored Hexabuttons #{0}] Strike! I was expecting {1}!", moduleId, orangeSolution[numButtonPresses]);
 				module.HandleStrike();
-				Audio.PlayGameSoundAtTransform(KMSoundOverride.SoundEffect.Strike, transform);
 				for (int aa = 0; aa < 6; aa++)
 				{
 					Vector3 pos = buttonMesh[aa].transform.localPosition;
@@ -822,7 +822,6 @@ public class ColorfulButtonSeries : MonoBehaviour
 					{
 						Debug.LogFormat("[Colored Hexabuttons #{0}] Strike! There is a wall to the N of {1}{2}", moduleId,  buttonCenterText[0], buttonCenterText[1]);
 						module.HandleStrike();
-						Audio.PlayGameSoundAtTransform(KMSoundOverride.SoundEffect.Strike, transform);
 					}
 					else
 					{
@@ -837,7 +836,6 @@ public class ColorfulButtonSeries : MonoBehaviour
 					{
 						Debug.LogFormat("[Colored Hexabuttons #{0}] Strike! There is a wall to the NE of {1}{2}", moduleId, buttonCenterText[0], buttonCenterText[1]);
 						module.HandleStrike();
-						Audio.PlayGameSoundAtTransform(KMSoundOverride.SoundEffect.Strike, transform);
 					}
 					else
 					{
@@ -853,7 +851,6 @@ public class ColorfulButtonSeries : MonoBehaviour
 					{
 						Debug.LogFormat("[Colored Hexabuttons #{0}] Strike! There is a wall to the SE of {1}{2}", moduleId, buttonCenterText[0], buttonCenterText[1]);
 						module.HandleStrike();
-						Audio.PlayGameSoundAtTransform(KMSoundOverride.SoundEffect.Strike, transform);
 					}
 					else
 					{
@@ -869,7 +866,6 @@ public class ColorfulButtonSeries : MonoBehaviour
 					{
 						Debug.LogFormat("[Colored Hexabuttons #{0}] Strike! There is a wall to the S of {1}{2}", moduleId, buttonCenterText[0], buttonCenterText[1]);
 						module.HandleStrike();
-						Audio.PlayGameSoundAtTransform(KMSoundOverride.SoundEffect.Strike, transform);
 					}
 					else
 					{
@@ -884,7 +880,6 @@ public class ColorfulButtonSeries : MonoBehaviour
 					{
 						Debug.LogFormat("[Colored Hexabuttons #{0}] Strike! There is a wall to the SW of {1}{2}", moduleId, buttonCenterText[0], buttonCenterText[1]);
 						module.HandleStrike();
-						Audio.PlayGameSoundAtTransform(KMSoundOverride.SoundEffect.Strike, transform);
 					}
 					else
 					{
@@ -900,7 +895,6 @@ public class ColorfulButtonSeries : MonoBehaviour
 					{
 						Debug.LogFormat("[Colored Hexabuttons #{0}] Strike! There is a wall to the NW of {1}{2}", moduleId, buttonCenterText[0], buttonCenterText[1]);
 						module.HandleStrike();
-						Audio.PlayGameSoundAtTransform(KMSoundOverride.SoundEffect.Strike, transform);
 					}
 					else
 					{
@@ -915,7 +909,8 @@ public class ColorfulButtonSeries : MonoBehaviour
 			if (buttonCenterText[0] == buttonCenterText[2] && buttonCenterText[1] == buttonCenterText[3])
 			{
 				moduleSolved = true;
-				module.HandlePass();
+				if (!(TPSwitch))
+					module.HandlePass();
 			}
 		}
 	}
@@ -1455,14 +1450,14 @@ public class ColorfulButtonSeries : MonoBehaviour
 				{
 					greenSwitch = false;
 					moduleSolved = true;
-					module.HandlePass();
+					if (!(TPSwitch))
+						module.HandlePass();
 				}
 			}
 			else
 			{
 				Debug.LogFormat("[Colored Hexabuttons #{0}] Strike! I was expecting note {1} which is on the {2} button!", moduleId, "-0123456789A".IndexOf(greenSolution[n]), positions[greenNotes.IndexOf(greenSolution[numButtonPresses])]);
 				module.HandleStrike();
-				Audio.PlayGameSoundAtTransform(KMSoundOverride.SoundEffect.Strike, transform);
 				foreach (int i in buttonIndex)
 				{
 					Vector3 pos = buttonMesh[i].transform.localPosition;
@@ -1636,14 +1631,14 @@ public class ColorfulButtonSeries : MonoBehaviour
 				if(numButtonPresses == 6)
 				{
 					moduleSolved = true;
-					module.HandlePass();
+					if (!(TPSwitch))
+						module.HandlePass();
 				}
 			}
 			else
 			{
 				Debug.LogFormat("[Colored Hexabuttons #{0}] Strike! I was expecting a value of {1}!", moduleId, blueSolution[numButtonPresses]);
 				module.HandleStrike();
-				Audio.PlayGameSoundAtTransform(KMSoundOverride.SoundEffect.Strike, transform);
 				foreach (int i in buttonIndex)
 				{
 					hexButtons[i].OnInteract = delegate { pressedBlue(i, blueButtonValues[i]); return false; };
@@ -2248,14 +2243,14 @@ public class ColorfulButtonSeries : MonoBehaviour
 				if(numButtonPresses == 6)
 				{
 					moduleSolved = true;
-					module.HandlePass();
+					if (!(TPSwitch))
+						module.HandlePass();
 				}
 			}
 			else
 			{
 				Debug.LogFormat("[Colored Hexabuttons #{0}] Strike! I was expecting the {1} button!", moduleId, positions[purpleSolution[numButtonPresses]]);
 				module.HandleStrike();
-				Audio.PlayGameSoundAtTransform(KMSoundOverride.SoundEffect.Strike, transform);
 				foreach (int i in buttonIndex)
 				{
 					Vector3 pos = buttonMesh[i].transform.localPosition;
@@ -2374,14 +2369,14 @@ public class ColorfulButtonSeries : MonoBehaviour
 				if (numButtonPresses == 6)
 				{
 					moduleSolved = true;
-					module.HandlePass();
+					if (!(TPSwitch))
+						module.HandlePass();
 				}
 			}
 			else
 			{
 				Debug.LogFormat("[Colored Hexabuttons #{0}] Strike! I was expecting {1} which is the color {2}", moduleId, positions[whiteBHC.IndexOf(whiteSolution[numButtonPresses])], whiteSolution[numButtonPresses]);
 				module.HandleStrike();
-				Audio.PlayGameSoundAtTransform(KMSoundOverride.SoundEffect.Strike, transform);
 				foreach (int i in buttonIndex)
 				{
 					Vector3 pos = buttonMesh[i].transform.localPosition;
@@ -2461,6 +2456,7 @@ public class ColorfulButtonSeries : MonoBehaviour
 #pragma warning restore 414
 	IEnumerator ProcessTwitchCommand(string command)
 	{
+		TPSwitch = true;
 		string[] param = command.ToUpper().Split(' ');
 		if ((Regex.IsMatch(param[0], @"^\s*HOVER\s*$", RegexOptions.IgnoreCase | RegexOptions.CultureInvariant) || Regex.IsMatch(param[0], @"^\s*CYCLE\s*$", RegexOptions.IgnoreCase | RegexOptions.CultureInvariant)))
 		{
@@ -2539,11 +2535,6 @@ public class ColorfulButtonSeries : MonoBehaviour
 							cursor = 6;
 							break;
 					}
-					if(TPSwitch)
-					{
-						yield return "awardpointsonsolve " + TPScore;
-						TPSwitch = false;
-					}
 					if (hexButtons[TPOrder[cursor] - '0'].OnInteract != null)
 					{
 						hexButtons[TPOrder[cursor] - '0'].OnInteract();
@@ -2554,6 +2545,11 @@ public class ColorfulButtonSeries : MonoBehaviour
 							yield return new WaitForSeconds(0.5f);
 						}
 					}
+				}
+				if(moduleSolved)
+				{
+					yield return "awardpointsonsolve " + TPScore;
+					module.HandlePass();
 				}
 			}
 			else
