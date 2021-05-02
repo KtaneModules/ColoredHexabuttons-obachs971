@@ -1,6 +1,5 @@
 ﻿using Newtonsoft.Json;
 using System;
-using System;
 using System.Collections;
 using System.Collections.Generic;
 using System.Text.RegularExpressions;
@@ -17,6 +16,7 @@ public class ColorfulButtonSeries : MonoBehaviour
 		public bool blue = true;
 		public bool purple = true;
 		public bool white = true;
+		public bool black = true;
 	}
 	bool ZenModeActive;
 	private static int moduleIdCounter;
@@ -43,6 +43,7 @@ public class ColorfulButtonSeries : MonoBehaviour
 	public AudioClip[] ciphers;
 	public MeshFilter[] shapes;
 	public AudioClip[] notes;
+	public AudioClip[] morseSounds;
 	private string TPOrder;
 	private int TPScore;
 	private bool TPSwitch;
@@ -106,8 +107,12 @@ public class ColorfulButtonSeries : MonoBehaviour
 	private string whiteBHC;
 	private int[] whiteFlashes;
 	private string whiteSolution;
+	private string[] blackMorse;
 	private int numButtonPresses;
 	private string[] buttonCenterText;
+	private int[] blackLights;
+	private ArrayList blackButtonSeq;
+	private int[] blackSolution;
 	private string[][] yellowMaze =
 	{
 		new string[] {"W", "W", "W", "W", "W", "W", "W", "W", "W", "W", "W", "W", "W", "W", "W", "W", "W", "W", "W", "W", "W", "W", "W"},
@@ -173,6 +178,8 @@ public class ColorfulButtonSeries : MonoBehaviour
 	 *PURPLE: Randomize the characters that relate to which 2 bits.
 	 * 
 	 *WHITE: Randomize the instruction chart.
+	 * 
+	 *BLACK: Randomize the button position list
 	 */
 	void Awake()
     {
@@ -184,7 +191,7 @@ public class ColorfulButtonSeries : MonoBehaviour
 		ModConfig<ColoredHexabuttonsSettings> modConfig = new ModConfig<ColoredHexabuttonsSettings>("ColoredHexabuttonsSettings");
 		string colorChoices = FindColors(modConfig);
 		colorIndex = colorChoices[UnityEngine.Random.Range(0, colorChoices.Length)] - '0';
-		//colorIndex = 6;
+		//colorIndex = 7;
 		switch (colorIndex)
 		{
 			case 0:
@@ -211,9 +218,13 @@ public class ColorfulButtonSeries : MonoBehaviour
 				TPScore = 10;
 				purple();
 				break;
-			default:
+			case 6:
 				TPScore = 8;
 				white();
+				break;
+			default:
+				TPScore = 8;
+				black();
 				break;
 		}
 	}
@@ -1613,11 +1624,11 @@ public class ColorfulButtonSeries : MonoBehaviour
 			}
 		}
 	}
-	void pressedBlue(int n, int p)
+	void pressedBlue(int n, int p, int buttonPos)
 	{
 		if(!(moduleSolved))
 		{
-			Debug.LogFormat("[Colored Hexabuttons #{0}] User pressed {1}, which has a value of {2}.", moduleId, positions[n], p);
+			Debug.LogFormat("[Colored Hexabuttons #{0}] User pressed {1}, which has a value of {2}.", moduleId, positions[buttonPos], p);
 			Audio.PlayGameSoundAtTransform(KMSoundOverride.SoundEffect.ButtonPress, transform);
 			if (blueSolution[numButtonPresses] == p)
 			{
@@ -1641,7 +1652,7 @@ public class ColorfulButtonSeries : MonoBehaviour
 				module.HandleStrike();
 				foreach (int i in buttonIndex)
 				{
-					hexButtons[i].OnInteract = delegate { pressedBlue(i, blueButtonValues[i]); return false; };
+					hexButtons[i].OnInteract = delegate { pressedBlue(i, blueButtonValues[i], (TPOrder[i] - '0')); return false; };
 					Vector3 pos = buttonMesh[i].transform.localPosition;
 					pos.y = 0.0169f;
 					buttonMesh[i].transform.localPosition = new Vector3(pos.x, pos.y, pos.z);
@@ -1937,7 +1948,7 @@ public class ColorfulButtonSeries : MonoBehaviour
 			yield return new WaitForSeconds(1.0f);
 		}
 		foreach (int i in buttonIndex)
-			hexButtons[i].OnInteract = delegate { pressedBlue(i, blueButtonValues[i]); return false;};
+			hexButtons[i].OnInteract = delegate { pressedBlue(i, blueButtonValues[i], (TPOrder[i] - '0')); return false;};
 		for(int aa = 0; aa < 100; aa++)
 		{
 			Vector3 pos = hexButtons[6].transform.localPosition;
@@ -2418,6 +2429,235 @@ public class ColorfulButtonSeries : MonoBehaviour
 			hexButtons[i].OnInteract = delegate { pressedWhite(i); return false; };
 		}
 	}
+	void black()
+	{
+		Debug.LogFormat("[Colored Hexabuttons #{0}] Color Generated: Black", moduleId);
+		string alpha = "ABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789";
+		string[] morse =
+		{
+			".-","-...","-.-.","-..",".","..-.","--.","....","..",".---","-.-",".-..","--",
+			"-.","---",".--.","--.-",".-.","...","-","..-","...-",".--","-..-","-.--","--..",
+			"-----",".----","..---","...--","....-",".....","-....","--...","---..","----."
+		};
+		string[] letterTable =
+		{
+			"LHTGWYRAQPJZODKXVFESCBMIUN9816347502",
+			"UPQCOTBEXAHYIRLKZMFDSJGNVW5209734816",
+			"TWIZYBASJONUDFVRXQGCHEKMPL8047269135",
+			"FXOKZWPLMNCDQHGBISTYRAUJEV2438571690",
+			"JOPQFGTDRVMSXLZWACNHBUYKIE1972805364",
+			"ZCMWHONFDKBGVQXLTJRIEYAUSP4685923071"
+		};
+		int[] buttonTable =
+		{
+			4, 1, 0, 3, 5, 2,
+			2, 5, 3, 1, 4, 0,
+			3, 0, 1, 5, 2, 4,
+			0, 4, 5, 2, 1, 3,
+			1, 3, 2, 4, 0, 5,
+			5, 2, 4, 0, 3, 1
+
+		};
+		string letters = "";
+		blackMorse = new string[6];
+		foreach(int i in buttonIndex)
+		{
+			letters = letters + "" + alpha[UnityEngine.Random.Range(0, alpha.Length)];
+			Debug.LogFormat("[Colored Hexabuttons #{0}] {1} button is transmitting {2}", moduleId, positions[i], letters[i]);
+			blackMorse[i] = morse[alpha.IndexOf(letters[i])];
+			hexButtons[i].OnInteract = delegate { StartCoroutine(pressedBlack(i)); return false; };
+		}
+		blackLights = new int[7];
+		foreach (int i in buttonIndex)
+		{
+			blackLights[i] = UnityEngine.Random.Range(0, 6);
+			hexButtons[i].OnHighlight = delegate { ledMesh[blackLights[i]].material = ledColors[2]; ledLights[blackLights[i]].color = Color.white; ledLights[blackLights[i]].enabled = true;};
+			hexButtons[i].OnHighlightEnded = delegate { ledMesh[blackLights[i]].material = ledColors[0]; ledLights[blackLights[i]].enabled = false; };
+		}
+		blackLights[6] = UnityEngine.Random.Range(0, 6);
+		hexButtons[6].OnHighlight = delegate { ledMesh[blackLights[6]].material = ledColors[2]; ledLights[blackLights[6]].color = Color.white; ledLights[blackLights[6]].enabled = true; };
+		hexButtons[6].OnHighlightEnded = delegate { ledMesh[blackLights[6]].material = ledColors[0]; ledLights[blackLights[6]].enabled = false; };
+		blackButtonSeq = new ArrayList();
+		blackButtonSeq.Add(blackLights[6]);
+		string temp = letters[(int)blackButtonSeq[0]] + "";
+		while(blackButtonSeq.Count < 6)
+		{
+			int row = ((int)blackButtonSeq[blackButtonSeq.Count - 1]) * 6;
+			int col = blackLights[((int)blackButtonSeq[blackButtonSeq.Count - 1])];
+			int index = row + col;
+			while (blackButtonSeq.Contains(buttonTable[index]))
+				index = (index + 1) % buttonTable.Length;
+			blackButtonSeq.Add(buttonTable[index]);
+			temp = temp + "" + letters[(int)blackButtonSeq[blackButtonSeq.Count - 1]];
+		}
+		letters = temp.ToUpperInvariant();
+		Debug.LogFormat("[Colored Hexabuttons #{0}] Order for the buttons to be read: {1}, {2}, {3}, {4}, {5}, {6}", moduleId, positions[(int)blackButtonSeq[0]], positions[(int)blackButtonSeq[1]], positions[(int)blackButtonSeq[2]], positions[(int)blackButtonSeq[3]], positions[(int)blackButtonSeq[4]], positions[(int)blackButtonSeq[5]]);
+		Debug.LogFormat("[Colored Hexabuttons #{0}] Character Sequence: {1}", moduleId, letters);
+		temp = "";
+		blackSolution = new int[12];
+		for(int aa = 0; aa < 6; aa++)
+		{
+			temp = temp + "" + letterTable[(int)blackButtonSeq[aa]][alpha.IndexOf(letters[aa])];
+			blackSolution[aa * 2] = (alpha.IndexOf(temp[aa]) / 6) + 1;
+			blackSolution[(aa * 2) + 1] = (alpha.IndexOf(temp[aa]) % 6) + 1;
+			Debug.LogFormat("[Colored Hexabuttons #{0}] {1} -> {2} -> {3}{4}", moduleId, letters[aa], temp[aa], blackSolution[aa * 2], blackSolution[(aa * 2) + 1]);
+		}
+		numButtonPresses = 0;
+		hexButtons[6].OnInteract = delegate { pressedBlackCenter(); return false; };
+		hexButtons[6].OnInteractEnded = delegate { releasedBlackCenter(); };
+		ledLights[6].color = Color.white;
+		greenSwitch = false;
+	}
+	IEnumerator pressedBlack(int p)
+	{
+		yield return new WaitForSeconds(0.0f);
+		if(!(moduleSolved))
+		{
+			Audio.PlayGameSoundAtTransform(KMSoundOverride.SoundEffect.ButtonPress, transform);
+			Vector3 pos = buttonMesh[p].transform.localPosition;
+			pos.y = 0.0126f;
+			buttonMesh[p].transform.localPosition = new Vector3(pos.x, pos.y, pos.z);
+			hexButtons[p].OnInteract = null;
+			yield return new WaitForSeconds(0.5f);
+			foreach (char c in blackMorse[p])
+			{
+				Audio.PlaySoundAtTransform(morseSounds[".-".IndexOf(c)].name, transform);
+				yield return new WaitForSeconds(0.3f);
+			}
+			yield return new WaitForSeconds(0.5f);
+			Audio.PlayGameSoundAtTransform(KMSoundOverride.SoundEffect.ButtonRelease, transform);
+			pos = buttonMesh[p].transform.localPosition;
+			pos.y = 0.0169f;
+			buttonMesh[p].transform.localPosition = new Vector3(pos.x, pos.y, pos.z);
+			hexButtons[p].OnInteract = delegate { StartCoroutine(pressedBlack(p)); return false; };
+		}
+	}
+	void pressedBlackSubmit(int p)
+	{
+		if(!(moduleSolved))
+		{
+			Audio.PlayGameSoundAtTransform(KMSoundOverride.SoundEffect.ButtonPress, transform);
+			Vector3 pos = buttonMesh[p].transform.localPosition;
+			pos.y = 0.0126f;
+			buttonMesh[p].transform.localPosition = new Vector3(pos.x, pos.y, pos.z);
+		}
+	}
+	void releasedBlackSubmit(int p)
+	{
+		if(!(moduleSolved))
+		{
+			Debug.LogFormat("[Colored Hexabuttons #{0}] User pressed {1}", moduleId, positions[p]);
+			Audio.PlayGameSoundAtTransform(KMSoundOverride.SoundEffect.ButtonRelease, transform);
+			Vector3 pos = buttonMesh[p].transform.localPosition;
+			pos.y = 0.0169f;
+			buttonMesh[p].transform.localPosition = new Vector3(pos.x, pos.y, pos.z);
+			if(blackSolution[numButtonPresses] == (p + 1))
+			{
+				if(numButtonPresses % 2 == 0)
+				{
+					ledMesh[(int)blackButtonSeq[numButtonPresses / 2]].material = ledColors[3];
+					ledLights[(int)blackButtonSeq[numButtonPresses / 2]].color = Color.red;
+					ledLights[(int)blackButtonSeq[numButtonPresses / 2]].enabled = true;
+				}
+				else
+				{
+					ledMesh[(int)blackButtonSeq[numButtonPresses / 2]].material = ledColors[1];
+					ledLights[(int)blackButtonSeq[numButtonPresses / 2]].color = Color.green;
+				}
+				numButtonPresses++;
+				if(numButtonPresses == 12)
+				{
+					greenSwitch = false;
+					moduleSolved = true;
+					module.HandlePass();
+				}
+			}
+			else
+			{
+				Debug.LogFormat("[Colored Hexabuttons #{0}] Strike! I was expecting {1}", moduleId, positions[blackSolution[numButtonPresses] - 1]);
+				module.HandleStrike();
+				hexButtons[6].OnHighlight = delegate { ledMesh[blackLights[6]].material = ledColors[2]; ledLights[blackLights[6]].color = Color.white; ledLights[blackLights[6]].enabled = true; };
+				hexButtons[6].OnHighlightEnded = delegate { ledMesh[blackLights[6]].material = ledColors[0]; ledLights[blackLights[6]].enabled = false; };
+				foreach (int i in buttonIndex)
+				{
+					hexButtons[i].OnInteract = delegate { StartCoroutine(pressedBlack(i)); return false; };
+					hexButtons[i].OnInteractEnded = null;
+					hexButtons[i].OnHighlight = delegate { ledMesh[blackLights[i]].material = ledColors[2]; ledLights[blackLights[i]].color = Color.white; ledLights[blackLights[i]].enabled = true; };
+					hexButtons[i].OnHighlightEnded = delegate { ledMesh[blackLights[i]].material = ledColors[0]; ledLights[blackLights[i]].enabled = false; };
+					ledMesh[i].material = ledColors[0];
+					ledLights[i].color = Color.white;
+					ledLights[i].enabled = false;
+				}
+				numButtonPresses = 0;
+				greenSwitch = false;
+			}
+		}
+	}
+	void pressedBlackCenter()
+	{
+		if(!(moduleSolved))
+		{
+			Audio.PlayGameSoundAtTransform(KMSoundOverride.SoundEffect.ButtonPress, transform);
+			Vector3 pos = buttonMesh[6].transform.localPosition;
+			pos.y = 0.0126f;
+			buttonMesh[6].transform.localPosition = new Vector3(pos.x, pos.y, pos.z);
+		}
+	}
+	void releasedBlackCenter()
+	{
+		if(!(moduleSolved))
+		{
+			Audio.PlayGameSoundAtTransform(KMSoundOverride.SoundEffect.ButtonRelease, transform);
+			Vector3 pos = buttonMesh[6].transform.localPosition;
+			pos.y = 0.0169f;
+			buttonMesh[6].transform.localPosition = new Vector3(pos.x, pos.y, pos.z);
+			if(greenSwitch)
+			{
+				hexButtons[6].OnHighlight = delegate { ledMesh[blackLights[6]].material = ledColors[2]; ledLights[blackLights[6]].color = Color.white; ledLights[blackLights[6]].enabled = true; };
+				hexButtons[6].OnHighlightEnded = delegate { ledMesh[blackLights[6]].material = ledColors[0]; ledLights[blackLights[6]].enabled = false; };
+				foreach (int i in buttonIndex)
+				{
+					hexButtons[i].OnInteract = delegate { StartCoroutine(pressedBlack(i)); return false; };
+					hexButtons[i].OnInteractEnded = null;
+					hexButtons[i].OnHighlight = delegate { ledMesh[blackLights[i]].material = ledColors[2]; ledLights[blackLights[i]].color = Color.white; ledLights[blackLights[i]].enabled = true; };
+					hexButtons[i].OnHighlightEnded = delegate { ledMesh[blackLights[i]].material = ledColors[0]; ledLights[blackLights[i]].enabled = false; };
+					ledMesh[i].material = ledColors[0];
+					ledLights[i].color = Color.white;
+					ledLights[i].enabled = false;
+				}
+				numButtonPresses = 0;
+			}
+			else
+			{
+				hexButtons[6].OnHighlight = null;
+				hexButtons[6].OnHighlightEnded = null;
+				StartCoroutine(blackFlasher());
+				foreach (int i in buttonIndex)
+				{
+					hexButtons[i].OnInteract = delegate { pressedBlackSubmit(i); return false; };
+					hexButtons[i].OnInteractEnded = delegate { releasedBlackSubmit(i); };
+					hexButtons[i].OnHighlight = null;
+					hexButtons[i].OnHighlightEnded = null;
+					ledMesh[i].material = ledColors[0];
+					ledLights[i].color = Color.white;
+					ledLights[i].enabled = false;
+				}
+			}
+			greenSwitch = !(greenSwitch);
+		}
+	}
+	IEnumerator blackFlasher()
+	{
+		yield return new WaitForSeconds(1.0f);
+		while (greenSwitch)
+		{
+			ledLights[6].enabled = true;
+			yield return new WaitForSeconds(1.0f);
+			ledLights[6].enabled = false;
+			yield return new WaitForSeconds(1.0f);
+		}
+		ledLights[6].enabled = false;
+	}
 	int mod(int n, int m)
 	{
 		while (n < 0)
@@ -2444,12 +2684,14 @@ public class ColorfulButtonSeries : MonoBehaviour
 				colors = colors + "5";
 			if (settings.white)
 				colors = colors + "6";
+			if (settings.black)
+				colors = colors + "7";
 			if (colors.Length == 0)
-				return "0123456";
+				return "01234567";
 			else
 				return colors;
 		}
-		else return "0123456";
+		else return "01234567";
 	}
 #pragma warning disable 414
 	private readonly string TwitchHelpMessage = @"!{0} press|p tl/1 tr/2 ml/3 mr/4 bl/5 br/6 c/7 presses the top-left, top-right, middle-left, middle-right, bottom-left, bottom-right and center buttons in that order. !{0} hover|cycle will hover over the buttons in tl, tr, ml, mr, bl, br, c order.";

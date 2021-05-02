@@ -3295,6 +3295,7 @@ MonoBehaviour:
   - {fileID: 2100000, guid: c3e8c25400b8d457cabe09d99fa1f1f9, type: 2}
   - {fileID: 2100000, guid: a418630d2f5061a4b9e8ec0386922895, type: 2}
   - {fileID: 2100000, guid: a086244c976384801b25627d5d4b7a92, type: 2}
+  - {fileID: 2100000, guid: dda8816355325f4418816df2987f9944, type: 2}
   buttonMesh:
   - {fileID: 23361330574889016}
   - {fileID: 23840205027643068}
@@ -3346,6 +3347,8 @@ MonoBehaviour:
   ledColors:
   - {fileID: 2100000, guid: e6ddc669e9faa4dad93207caa5a7c773, type: 2}
   - {fileID: 2100000, guid: 9b7b97be6cf329c408deb927d036236a, type: 2}
+  - {fileID: 2100000, guid: 946ef29eb8dac3449af9bdb4d3ca2fbe, type: 2}
+  - {fileID: 2100000, guid: 0b8345d6190d14013b825698a59f7759, type: 2}
   ledMesh:
   - {fileID: 23748943959350592}
   - {fileID: 23408402305786874}
@@ -3437,6 +3440,9 @@ MonoBehaviour:
   - {fileID: 8300000, guid: 3c3ecea4f54307b419c8e632dca682dd, type: 3}
   - {fileID: 8300000, guid: 25affd4e871069748b623c66522f39ea, type: 3}
   - {fileID: 8300000, guid: d0424e24fd3542e4db96326dcbc51a74, type: 3}
+  morseSounds:
+  - {fileID: 8300000, guid: 2933a7b6912ecb84690b4de57877c3e6, type: 3}
+  - {fileID: 8300000, guid: 1c929acca55de054bb0c678ca165be5b, type: 3}
 --- !u!114 &114541671238173004
 MonoBehaviour:
   m_ObjectHideFlags: 1
