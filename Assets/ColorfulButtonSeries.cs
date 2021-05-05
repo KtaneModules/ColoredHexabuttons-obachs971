@@ -179,7 +179,7 @@ public class ColorfulButtonSeries : MonoBehaviour
 	 * 
 	 *WHITE: Randomize the instruction chart.
 	 * 
-	 *BLACK: Randomize the button position list
+	 *BLACK: Randomize the Button Position table and the Resulting Letters table
 	 */
 	void Awake()
     {
@@ -2521,8 +2521,16 @@ public class ColorfulButtonSeries : MonoBehaviour
 			yield return new WaitForSeconds(0.5f);
 			foreach (char c in blackMorse[p])
 			{
-				Audio.PlaySoundAtTransform(morseSounds[".-".IndexOf(c)].name, transform);
-				yield return new WaitForSeconds(0.3f);
+				if(c == '.')
+				{
+					Audio.PlaySoundAtTransform(morseSounds[0].name, transform);
+					yield return new WaitForSeconds(0.2f);
+				}
+				else
+				{
+					Audio.PlaySoundAtTransform(morseSounds[1].name, transform);
+					yield return new WaitForSeconds(0.3f);
+				}
 			}
 			yield return new WaitForSeconds(0.5f);
 			Audio.PlayGameSoundAtTransform(KMSoundOverride.SoundEffect.ButtonRelease, transform);
