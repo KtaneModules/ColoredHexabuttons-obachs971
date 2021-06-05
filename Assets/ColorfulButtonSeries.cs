@@ -147,7 +147,7 @@ public class ColorfulButtonSeries : MonoBehaviour
 				gray.run();
 				break;
 			case 8:
-				TPScore = 8;
+				TPScore = 9;
 				BlackHexabuttons black = new BlackHexabuttons(this, Audio, morseSounds, moduleId, hexButtons, buttonMesh, ledColors, ledMesh, flashLights, transform);
 				black.run();
 				break;
