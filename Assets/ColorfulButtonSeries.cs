@@ -16,7 +16,9 @@ public class ColorfulButtonSeries : MonoBehaviour
 		public bool blue = true;
 		public bool purple = true;
 		public bool white = true;
+		public bool gray = true;
 		public bool black = true;
+		public bool brown = true;
 	}
 	private static int[] missionPoss;
 	private static bool first = true;
@@ -91,7 +93,7 @@ public class ColorfulButtonSeries : MonoBehaviour
 				for (int bb = 0; bb < missionPoss[aa]; bb++)
 					colorChoices = colorChoices + "" + aa;
 			}
-			colorChoices.Call();
+			//colorChoices.Call();
 			colorIndex = colorChoices[UnityEngine.Random.Range(0, colorChoices.Length)] - '0';
 			--missionPoss[colorIndex];
 		}
@@ -101,7 +103,7 @@ public class ColorfulButtonSeries : MonoBehaviour
 			colorChoices = FindColors(modConfig);
 			colorIndex = colorChoices[UnityEngine.Random.Range(0, colorChoices.Length)] - '0';
 		}
-		//colorIndex = 4;
+		//colorIndex = 7;
 		switch (colorIndex)
 		{
 			case 0:
@@ -139,10 +141,20 @@ public class ColorfulButtonSeries : MonoBehaviour
 				WhiteHexabuttons white = new WhiteHexabuttons(this, Audio, moduleId, hexButtons, buttonMesh, buttonColors, ledColors, ledMesh, flashLights, transform);
 				white.run();
 				break;
-			default:
+			case 7:
+				TPScore = 12;
+				GrayHexabuttons gray = new GrayHexabuttons(this, Audio, moduleId, hexButtons, buttonMesh, buttonText, ledColors, ledMesh, flashLights, transform);
+				gray.run();
+				break;
+			case 8:
 				TPScore = 8;
 				BlackHexabuttons black = new BlackHexabuttons(this, Audio, morseSounds, moduleId, hexButtons, buttonMesh, ledColors, ledMesh, flashLights, transform);
 				black.run();
+				break;
+			case 9:
+				TPScore = 8;
+				BrownHexabuttons brown = new BrownHexabuttons(this, Audio, moduleId, hexButtons, buttonMesh, buttonText, ledColors, ledMesh, transform);
+				brown.run();
 				break;
 		}
 	}
@@ -177,14 +189,18 @@ public class ColorfulButtonSeries : MonoBehaviour
 				colors = colors + "5";
 			if (settings.white)
 				colors = colors + "6";
-			if (settings.black)
+			if (settings.gray)
 				colors = colors + "7";
+			if (settings.black)
+				colors = colors + "8";
+			if (settings.brown)
+				colors = colors + "9";
 			if (colors.Length == 0)
-				return "01234567";
+				return "0123456789";
 			else
 				return colors;
 		}
-		else return "01234567";
+		else return "0123456789";
 	}
 	static int[] MissionSettings()
 	{
@@ -193,14 +209,14 @@ public class ColorfulButtonSeries : MonoBehaviour
 		if (description == null)
 			return null;
 		
-		Regex regex = new Regex(@"\[Colored Hexabuttons\] (\d+,){7}\d+");
+		Regex regex = new Regex(@"\[Colored Hexabuttons\] (\d+,){9}\d+");
 
 		var match = regex.Match(description);
 		
 		if (!match.Success)
 			return null;
 
-		return match.Value.Replace("[Colored Hexabuttons] ", "").Split(',').ToNumbers(min: 0, max: 255, minLength: 8, maxLength: 8);
+		return match.Value.Replace("[Colored Hexabuttons] ", "").Split(',').ToNumbers(min: 0, max: 255, minLength: 10, maxLength: 10);
 	}
 	private bool check(int[] values)
 	{
