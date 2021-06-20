@@ -142,7 +142,7 @@ public class ColorfulButtonSeries : MonoBehaviour
 				white.run();
 				break;
 			case 7:
-				TPScore = 12;
+				TPScore = 9;
 				GrayHexabuttons gray = new GrayHexabuttons(this, Audio, moduleId, hexButtons, buttonMesh, buttonText, ledColors, ledMesh, flashLights, transform);
 				gray.run();
 				break;
@@ -152,7 +152,7 @@ public class ColorfulButtonSeries : MonoBehaviour
 				black.run();
 				break;
 			case 9:
-				TPScore = 8;
+				TPScore = 7;
 				BrownHexabuttons brown = new BrownHexabuttons(this, Audio, moduleId, hexButtons, buttonMesh, buttonText, ledColors, ledMesh, transform);
 				brown.run();
 				break;
