@@ -107,6 +107,7 @@ public class BrownHexabuttons {
 	{
 		if(!(moduleSolved))
 		{
+			Audio.PlayGameSoundAtTransform(KMSoundOverride.SoundEffect.ButtonPress, transform);
 			string results;
 			if(flip == -1)
 			{
