@@ -1,0 +1,238 @@
+﻿<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="initial-scale=1">
+    <title>Green Hexabuttons — Keep Talking and Nobody Explodes Module</title>
+    <link rel="stylesheet" type="text/css" href="css/font.css">
+    <link rel="stylesheet" type="text/css" href="css/normalize.css">
+    <link rel="stylesheet" type="text/css" href="css/main.css">
+    <script src="js/ktane-utils.js"></script>
+    <script src="js/jquery.3.1.1.min.js"></script>
+    <script src="js/Utilities/svg-utils.js"></script>
+    <script>
+    $(function() {
+        let gridRotation = 0;
+        let hexmaze = $("svg.hexmaze");
+        const number = [
+                   31, 35, 26, 01, 47, 77,
+                 78, 59, 44, 03, 48, 45, 67,
+               71, 07, 69, 74, 57, 28, 84, 13,
+             06, 86, 91, 42 ,55, 79, 83, 34, 65,
+           09, 56, 21, 36, 37, 70, 89, 24, 39, 05,
+         64, 76, 75, 73, 62, 27, 04, 18, 38, 82, 22,
+           43, 46, 30, 15, 66, 53, 50, 60, 23, 80,
+             33, 12, 20, 02, 25, 54, 17, 41, 72,
+               61, 08, 32, 88, 58, 85, 10, 14,
+                 29, 11, 81, 16, 90, 40, 68,
+                   19, 63, 49, 52, 51, 87
+        ];
+        let rows = [6,7,8,9,10,11,10,9,8,7,6];
+        const hexRad = 10.55;
+        let i = 0;
+
+        for (let c = 0; c < rows.length; c++) {
+            let off = (11 - rows[c]) * 9.15 + 1
+            for (let r = 0; r < rows[c]; r++) {
+                let txt = MakeSvgElem("text", {
+                    x: (c*15.8 + 5.8), y: (r*18.3 + off + 11.7), fill: "black"
+                });
+                txt.innerHTML = ("00"+number[i]).slice(-2);
+                hexmaze.append(txt);
+                hexmaze.append(RegularPolygon(hexRad, c*15.8 + 11.2, r*18.3 + off + 8.7, 6, 90, {
+                    class:"highlightable", fill: "transparent"
+                }));
+                i++;
+            }
+        }
+
+        const musicX = 4.6;
+        const musicY = [3.5,4.4,4.4,4.4,4.4,4.4,4.4];
+        const musicYScale = [4.67,4.77,4.77,4.77,4.77,4.77,4.78];
+        const musicMeas = [65,70,70,70,70,70,47];
+        const mSpMs = [6,9];
+        let holders = $(".highlight-holder");
+
+        holders.each(function(i) {
+            let svg = MakeSvgTag(57,74).appendTo(holders[i]);
+            for (let r = 0; r < 14; r++) {
+                for (let c = 0; c < 5; c++) {
+                    if (r*5 + c < musicMeas[i]) {
+                        let wAdj = (i == mSpMs[0] && r == mSpMs[1]) ? -0.55 : 0;
+                        let box = MakeSvgElem("rect", {
+                            x:(musicX + c*(9.82 + wAdj)), y:(musicY[i] + r*musicYScale[i]),
+                            width:(9.82 + wAdj), height:2.8, fill: "transparent", class:"highlightable"
+                        });
+                        svg.append(box);
+                    }
+                }
+            }
+        });
+    });
+    </script>
+    <style>
+        *[col-s] {
+            color: #ffffff
+        }
+
+        .dark table, table {
+            border: none;
+            margin: 1em auto;
+        }
+        td { text-align: center; }
+
+        .strip-change-one td,
+        .strip-change-one th {
+            padding: .3em .5em .2em;
+        }
+
+        .alpha {
+            font-size: 14px;
+        }
+
+        svg.swap { width: 2.5cm; }
+        .dark svg.swap path { stroke: #DDD; }
+        svg.hexmaze text { font-size: 9px; }
+        img.music { width: 100%; }
+
+        .dark #arrow-end, .dark #arrow-start, .dark #arrow-cw,
+        .dark svg.hexmaze path:not(.highlightable), .dark svg.hexmaze text {
+            fill: #DDD;
+        }
+        .dark svg.swap text { fill: #DDD; }
+
+        .dark table.ondark-img img, .dark img.ondark { filter: invert(87%); }
+        .page {
+            background-repeat: repeat-y;
+            background-position: top;
+        }
+        svg.hexmaze { width: 100%; }
+
+        .highlight-holder {
+            position: relative;
+            width: 100%;
+        }
+        @media screen and (max-width: 900px) {
+            .highlight-holder {
+                height: 260mm;
+            }
+        }
+        @media screen and (max-width: 700px) {
+            .highlight-holder {
+                height: 196mm;
+            }
+        }
+        .highlight-holder svg, .highlight-holder img {
+            position: absolute;
+            width: 100%;
+        }
+    </style>
+</head>
+<body>
+    <div class="section">
+        <div class="page page-bg-01">
+            <div class="page-header">
+                <span class="page-header-doc-title">Keep Talking and Nobody Explodes Mod</span>
+                <span class="page-header-section-title">Green Hexabuttons</span>
+            </div>
+            <div class="page-content">
+                <img src="img/Component/Colored Hexabuttons.svg" class="diagram">
+                <h2>On the Subject of Green Hexabuttons</h2>
+                <p class="flavour-text">Being green with envy won't help in this situation.</p>
+                <p>When not in recording mode, you can press any non-center button as many times as you'll like. Each button will play a unique note when pressed.</p>
+                <p>The center button's text refers to a measure number in the sheet music below. Locate the measure to see the order of the notes. Press the buttons in such a way that will play the notes in the order of the current measure in the sheet music while in recording mode to disarm the module.</p>
+                <p>To enter recording mode, press the center button. It will start flashing indicating recording mode. One way to get out of recording mode is to press the center button again. The second way to get out of recording mode is to strike on the module by pressing a button in the wrong order.</p>
+                <p>When getting out of recording mode, the center button will no longer flash, and any buttons that were pressed will be back up.</p>
+                <h4>Basic Music Knowledge</h4>
+                <p><b>Note:</b> A note is indicated in the sheet music by a filled in dot with a line coming out of it. The higher the note is on the staff, the higher the tone/pitch. The lower the note is on the staff, the lower the tone/pitch.</p>
+                <p><b>Measure:</b> Contains a collection of notes in between 2 lines called a bar line. In this module, each measure contains exactly 6 notes each. Measures are numbered on the left hand side of each line, starting at 1.</p>
+            </div>
+            <div class="page-footer relative-footer">Page 1 of 8</div>
+        </div>
+        <div class="page page-bg-02">
+            <div class="page-header">
+                <span class="page-header-doc-title">Keep Talking and Nobody Explodes Mod</span>
+                <span class="page-header-section-title">Green Hexabuttons</span>
+            </div>
+            <div class="page-content">
+                <div class="highlight-holder">
+                    <img class="ondark centered-img music" src="img/Colored Hexabuttons/GreenMusic-1.png">
+                </div>
+            </div>
+            <div class="page-footer relative-footer">Page 2 of 8</div>
+        </div>
+        <div class="page page-bg-03">
+            <div class="page-header">
+                <span class="page-header-doc-title">Keep Talking and Nobody Explodes Mod</span>
+                <span class="page-header-section-title">Green Hexabuttons</span>
+            </div>
+            <div class="page-content">
+                <div class="highlight-holder">
+                    <img class="ondark centered-img music" src="img/Colored Hexabuttons/GreenMusic-2.png">
+                </div>
+            </div>
+            <div class="page-footer relative-footer">Page 3 of 8</div>
+        </div>
+        <div class="page page-bg-04">
+            <div class="page-header">
+                <span class="page-header-doc-title">Keep Talking and Nobody Explodes Mod</span>
+                <span class="page-header-section-title">Green Hexabuttons</span>
+            </div>
+            <div class="page-content">
+                <div class="highlight-holder">
+                    <img class="ondark centered-img music" src="img/Colored Hexabuttons/GreenMusic-3.png">
+                </div>
+            </div>
+            <div class="page-footer relative-footer">Page 4 of 8</div>
+        </div>
+        <div class="page page-bg-05">
+            <div class="page-header">
+                <span class="page-header-doc-title">Keep Talking and Nobody Explodes Mod</span>
+                <span class="page-header-section-title">Green Hexabuttons</span>
+            </div>
+            <div class="page-content">
+                <div class="highlight-holder">
+                    <img class="ondark centered-img music" src="img/Colored Hexabuttons/GreenMusic-4.png">
+                </div>
+            </div>
+            <div class="page-footer relative-footer">Page 5 of 8</div>
+        </div>
+        <div class="page page-bg-06">
+            <div class="page-header">
+                <span class="page-header-doc-title">Keep Talking and Nobody Explodes Mod</span>
+                <span class="page-header-section-title">Green Hexabuttons</span>
+            </div>
+            <div class="page-content">
+                <div class="highlight-holder">
+                    <img class="ondark centered-img music" src="img/Colored Hexabuttons/GreenMusic-5.png">
+                </div>
+            </div>
+            <div class="page-footer relative-footer">Page 6 of 8</div>
+        </div>
+        <div class="page page-bg-07">
+            <div class="page-header">
+                <span class="page-header-doc-title">Keep Talking and Nobody Explodes Mod</span>
+                <span class="page-header-section-title">Green Hexabuttons</span>
+            </div>
+            <div class="page-content">
+                <div class="highlight-holder">
+                    <img class="ondark centered-img music" src="img/Colored Hexabuttons/GreenMusic-6.png">
+                </div>
+            </div>
+            <div class="page-footer relative-footer">Page 7 of 8</div>
+        </div>
+        <div class="page page-bg-01">
+            <div class="page-header">
+                <span class="page-header-doc-title">Keep Talking and Nobody Explodes Mod</span>
+                <span class="page-header-section-title">Green Hexabuttons</span>
+            </div>
+            <div class="page-content">
+                <div class="highlight-holder">
+                    <img class="ondark centered-img music" src="img/Colored Hexabuttons/GreenMusic-7.png">
+                </div>
+            </div>
+            <div class="page-footer relative-footer">Page 8 of 8</div>
+        </div>
+    </div>
+</body>
+</html>
