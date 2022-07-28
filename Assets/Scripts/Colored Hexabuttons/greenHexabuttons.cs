@@ -141,7 +141,7 @@ public class greenHexabuttons : MonoBehaviour
 		else
 		{
 			Debug.LogFormat("[Green Hexabuttons #{0}] Strike! I was expecting note {1} which is on the {2} button!", moduleId, "-0123456789A".IndexOf(solution[n]), positions[greenNotes.IndexOf(solution[numButtonPresses])]);
-			module.HandlePass();
+			module.HandleStrike();
 			foreach (int i in buttonIndex)
 			{
 				Vector3 pos = buttonMesh[i].transform.localPosition;
