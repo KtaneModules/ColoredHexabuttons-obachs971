@@ -160,7 +160,7 @@ public class blueHexabuttons : MonoBehaviour
 		for (int bb = 0; bb < 6; bb++)
 			buttonText[bb].text = "";
 		yield return new WaitForSeconds(1.0f);
-		TPOrder = "012345";
+		string order = "012345";
 		for (int i = 0; i < nums.Length; i++)
 		{
 			string[] swaps = new string[0];
@@ -169,143 +169,143 @@ public class blueHexabuttons : MonoBehaviour
 			{
 				case 3:
 					swaps = new string[1];
-					swaps[0] = TPOrder[0] + "" + TPOrder[1];
-					TPOrder = TPOrder.Replace(swaps[0][0], '*');
-					TPOrder = TPOrder.Replace(swaps[0][1], swaps[0][0]);
-					TPOrder = TPOrder.Replace('*', swaps[0][1]);
+					swaps[0] = order[0] + "" + order[1];
+					order = order.Replace(swaps[0][0], '*');
+					order = order.Replace(swaps[0][1], swaps[0][0]);
+					order = order.Replace('*', swaps[0][1]);
 					break;
 				case 17:
 					swaps = new string[1];
-					swaps[0] = TPOrder[0] + "" + TPOrder[2];
-					TPOrder = TPOrder.Replace(swaps[0][0], '*');
-					TPOrder = TPOrder.Replace(swaps[0][1], swaps[0][0]);
-					TPOrder = TPOrder.Replace('*', swaps[0][1]);
+					swaps[0] = order[0] + "" + order[2];
+					order = order.Replace(swaps[0][0], '*');
+					order = order.Replace(swaps[0][1], swaps[0][0]);
+					order = order.Replace('*', swaps[0][1]);
 					break;
 				case 0:
 					swaps = new string[1];
-					swaps[0] = TPOrder[0] + "" + TPOrder[3];
-					TPOrder = TPOrder.Replace(swaps[0][0], '*');
-					TPOrder = TPOrder.Replace(swaps[0][1], swaps[0][0]);
-					TPOrder = TPOrder.Replace('*', swaps[0][1]);
+					swaps[0] = order[0] + "" + order[3];
+					order = order.Replace(swaps[0][0], '*');
+					order = order.Replace(swaps[0][1], swaps[0][0]);
+					order = order.Replace('*', swaps[0][1]);
 					break;
 				case 25:
 					swaps = new string[1];
-					swaps[0] = TPOrder[0] + "" + TPOrder[4];
-					TPOrder = TPOrder.Replace(swaps[0][0], '*');
-					TPOrder = TPOrder.Replace(swaps[0][1], swaps[0][0]);
-					TPOrder = TPOrder.Replace('*', swaps[0][1]);
+					swaps[0] = order[0] + "" + order[4];
+					order = order.Replace(swaps[0][0], '*');
+					order = order.Replace(swaps[0][1], swaps[0][0]);
+					order = order.Replace('*', swaps[0][1]);
 					break;
 				case 6:
 					swaps = new string[1];
-					swaps[0] = TPOrder[0] + "" + TPOrder[5];
-					TPOrder = TPOrder.Replace(swaps[0][0], '*');
-					TPOrder = TPOrder.Replace(swaps[0][1], swaps[0][0]);
-					TPOrder = TPOrder.Replace('*', swaps[0][1]);
+					swaps[0] = order[0] + "" + order[5];
+					order = order.Replace(swaps[0][0], '*');
+					order = order.Replace(swaps[0][1], swaps[0][0]);
+					order = order.Replace('*', swaps[0][1]);
 					break;
 				case 22:
 					swaps = new string[1];
-					swaps[0] = TPOrder[1] + "" + TPOrder[2];
-					TPOrder = TPOrder.Replace(swaps[0][0], '*');
-					TPOrder = TPOrder.Replace(swaps[0][1], swaps[0][0]);
-					TPOrder = TPOrder.Replace('*', swaps[0][1]);
+					swaps[0] = order[1] + "" + order[2];
+					order = order.Replace(swaps[0][0], '*');
+					order = order.Replace(swaps[0][1], swaps[0][0]);
+					order = order.Replace('*', swaps[0][1]);
 					break;
 				case 4:
 					swaps = new string[1];
-					swaps[0] = TPOrder[1] + "" + TPOrder[3];
-					TPOrder = TPOrder.Replace(swaps[0][0], '*');
-					TPOrder = TPOrder.Replace(swaps[0][1], swaps[0][0]);
-					TPOrder = TPOrder.Replace('*', swaps[0][1]);
+					swaps[0] = order[1] + "" + order[3];
+					order = order.Replace(swaps[0][0], '*');
+					order = order.Replace(swaps[0][1], swaps[0][0]);
+					order = order.Replace('*', swaps[0][1]);
 					break;
 				case 23:
 					swaps = new string[1];
-					swaps[0] = TPOrder[1] + "" + TPOrder[4];
-					TPOrder = TPOrder.Replace(swaps[0][0], '*');
-					TPOrder = TPOrder.Replace(swaps[0][1], swaps[0][0]);
-					TPOrder = TPOrder.Replace('*', swaps[0][1]);
+					swaps[0] = order[1] + "" + order[4];
+					order = order.Replace(swaps[0][0], '*');
+					order = order.Replace(swaps[0][1], swaps[0][0]);
+					order = order.Replace('*', swaps[0][1]);
 					break;
 				case 11:
 					swaps = new string[1];
-					swaps[0] = TPOrder[1] + "" + TPOrder[5];
-					TPOrder = TPOrder.Replace(swaps[0][0], '*');
-					TPOrder = TPOrder.Replace(swaps[0][1], swaps[0][0]);
-					TPOrder = TPOrder.Replace('*', swaps[0][1]);
+					swaps[0] = order[1] + "" + order[5];
+					order = order.Replace(swaps[0][0], '*');
+					order = order.Replace(swaps[0][1], swaps[0][0]);
+					order = order.Replace('*', swaps[0][1]);
 					break;
 				case 5:
 					swaps = new string[1];
-					swaps[0] = TPOrder[2] + "" + TPOrder[3];
-					TPOrder = TPOrder.Replace(swaps[0][0], '*');
-					TPOrder = TPOrder.Replace(swaps[0][1], swaps[0][0]);
-					TPOrder = TPOrder.Replace('*', swaps[0][1]);
+					swaps[0] = order[2] + "" + order[3];
+					order = order.Replace(swaps[0][0], '*');
+					order = order.Replace(swaps[0][1], swaps[0][0]);
+					order = order.Replace('*', swaps[0][1]);
 					break;
 				case 16:
 					swaps = new string[1];
-					swaps[0] = TPOrder[2] + "" + TPOrder[4];
-					TPOrder = TPOrder.Replace(swaps[0][0], '*');
-					TPOrder = TPOrder.Replace(swaps[0][1], swaps[0][0]);
-					TPOrder = TPOrder.Replace('*', swaps[0][1]);
+					swaps[0] = order[2] + "" + order[4];
+					order = order.Replace(swaps[0][0], '*');
+					order = order.Replace(swaps[0][1], swaps[0][0]);
+					order = order.Replace('*', swaps[0][1]);
 					break;
 				case 9:
 					swaps = new string[1];
-					swaps[0] = TPOrder[2] + "" + TPOrder[5];
-					TPOrder = TPOrder.Replace(swaps[0][0], '*');
-					TPOrder = TPOrder.Replace(swaps[0][1], swaps[0][0]);
-					TPOrder = TPOrder.Replace('*', swaps[0][1]);
+					swaps[0] = order[2] + "" + order[5];
+					order = order.Replace(swaps[0][0], '*');
+					order = order.Replace(swaps[0][1], swaps[0][0]);
+					order = order.Replace('*', swaps[0][1]);
 					break;
 				case 27:
 					swaps = new string[1];
-					swaps[0] = TPOrder[3] + "" + TPOrder[4];
-					TPOrder = TPOrder.Replace(swaps[0][0], '*');
-					TPOrder = TPOrder.Replace(swaps[0][1], swaps[0][0]);
-					TPOrder = TPOrder.Replace('*', swaps[0][1]);
+					swaps[0] = order[3] + "" + order[4];
+					order = order.Replace(swaps[0][0], '*');
+					order = order.Replace(swaps[0][1], swaps[0][0]);
+					order = order.Replace('*', swaps[0][1]);
 					break;
 				case 20:
 					swaps = new string[1];
-					swaps[0] = TPOrder[3] + "" + TPOrder[5];
-					TPOrder = TPOrder.Replace(swaps[0][0], '*');
-					TPOrder = TPOrder.Replace(swaps[0][1], swaps[0][0]);
-					TPOrder = TPOrder.Replace('*', swaps[0][1]);
+					swaps[0] = order[3] + "" + order[5];
+					order = order.Replace(swaps[0][0], '*');
+					order = order.Replace(swaps[0][1], swaps[0][0]);
+					order = order.Replace('*', swaps[0][1]);
 					break;
 				case 24:
 					swaps = new string[1];
-					swaps[0] = TPOrder[4] + "" + TPOrder[5];
-					TPOrder = TPOrder.Replace(swaps[0][0], '*');
-					TPOrder = TPOrder.Replace(swaps[0][1], swaps[0][0]);
-					TPOrder = TPOrder.Replace('*', swaps[0][1]);
+					swaps[0] = order[4] + "" + order[5];
+					order = order.Replace(swaps[0][0], '*');
+					order = order.Replace(swaps[0][1], swaps[0][0]);
+					order = order.Replace('*', swaps[0][1]);
 					break;
 				case 2://M|
 					swaps = new string[3];
-					swaps[0] = TPOrder[0] + "" + TPOrder[1];
-					swaps[1] = TPOrder[2] + "" + TPOrder[3];
-					swaps[2] = TPOrder[4] + "" + TPOrder[5];
+					swaps[0] = order[0] + "" + order[1];
+					swaps[1] = order[2] + "" + order[3];
+					swaps[2] = order[4] + "" + order[5];
 					for (int aa = 0; aa < swaps.Length; aa++)
 					{
-						TPOrder = TPOrder.Replace(swaps[aa][0], '*');
-						TPOrder = TPOrder.Replace(swaps[aa][1], swaps[aa][0]);
-						TPOrder = TPOrder.Replace('*', swaps[aa][1]);
+						order = order.Replace(swaps[aa][0], '*');
+						order = order.Replace(swaps[aa][1], swaps[aa][0]);
+						order = order.Replace('*', swaps[aa][1]);
 					}
 					break;
 				case 14://M/
 					swaps = new string[3];
-					swaps[0] = TPOrder[0] + "" + TPOrder[5];
-					swaps[1] = TPOrder[1] + "" + TPOrder[3];
-					swaps[2] = TPOrder[2] + "" + TPOrder[4];
+					swaps[0] = order[0] + "" + order[5];
+					swaps[1] = order[1] + "" + order[3];
+					swaps[2] = order[2] + "" + order[4];
 					for (int aa = 0; aa < swaps.Length; aa++)
 					{
-						TPOrder = TPOrder.Replace(swaps[aa][0], '*');
-						TPOrder = TPOrder.Replace(swaps[aa][1], swaps[aa][0]);
-						TPOrder = TPOrder.Replace('*', swaps[aa][1]);
+						order = order.Replace(swaps[aa][0], '*');
+						order = order.Replace(swaps[aa][1], swaps[aa][0]);
+						order = order.Replace('*', swaps[aa][1]);
 					}
 					break;
 				case 15://M\
 					swaps = new string[3];
-					swaps[0] = TPOrder[0] + "" + TPOrder[2];
-					swaps[1] = TPOrder[1] + "" + TPOrder[4];
-					swaps[2] = TPOrder[3] + "" + TPOrder[5];
+					swaps[0] = order[0] + "" + order[2];
+					swaps[1] = order[1] + "" + order[4];
+					swaps[2] = order[3] + "" + order[5];
 					for (int aa = 0; aa < swaps.Length; aa++)
 					{
-						TPOrder = TPOrder.Replace(swaps[aa][0], '*');
-						TPOrder = TPOrder.Replace(swaps[aa][1], swaps[aa][0]);
-						TPOrder = TPOrder.Replace('*', swaps[aa][1]);
+						order = order.Replace(swaps[aa][0], '*');
+						order = order.Replace(swaps[aa][1], swaps[aa][0]);
+						order = order.Replace('*', swaps[aa][1]);
 					}
 					break;
 				case 26:
@@ -375,21 +375,21 @@ public class blueHexabuttons : MonoBehaviour
 					for (int aa = 0; aa < 6; aa++)
 					{
 						diff[aa] = new float[2];
-						diff[aa][0] = (buttonMesh[TPOrder[cwpos[(aa + 1) % 6]] - '0'].transform.localPosition.x - buttonMesh[TPOrder[cwpos[aa]] - '0'].transform.localPosition.x) / 100f;
-						diff[aa][1] = (buttonMesh[TPOrder[cwpos[(aa + 1) % 6]] - '0'].transform.localPosition.z - buttonMesh[TPOrder[cwpos[aa]] - '0'].transform.localPosition.z) / 100f;
+						diff[aa][0] = (buttonMesh[order[cwpos[(aa + 1) % 6]] - '0'].transform.localPosition.x - buttonMesh[order[cwpos[aa]] - '0'].transform.localPosition.x) / 100f;
+						diff[aa][1] = (buttonMesh[order[cwpos[(aa + 1) % 6]] - '0'].transform.localPosition.z - buttonMesh[order[cwpos[aa]] - '0'].transform.localPosition.z) / 100f;
 					}
 					for (int zz = 0; zz < 100; zz++)
 					{
 						for (int aa = 0; aa < diff.Length; aa++)
 						{
-							Vector3 pos1 = buttonMesh[TPOrder[cwpos[aa]] - '0'].transform.localPosition;
+							Vector3 pos1 = buttonMesh[order[cwpos[aa]] - '0'].transform.localPosition;
 							pos1.x += diff[aa][0];
 							pos1.z += diff[aa][1];
-							buttonMesh[TPOrder[cwpos[aa]] - '0'].transform.localPosition = new Vector3(pos1.x, pos1.y, pos1.z);
+							buttonMesh[order[cwpos[aa]] - '0'].transform.localPosition = new Vector3(pos1.x, pos1.y, pos1.z);
 						}
 						yield return new WaitForSeconds(0.01f);
 					}
-					TPOrder = TPOrder[2] + "" + TPOrder[0] + "" + TPOrder[4] + "" + TPOrder[1] + "" + TPOrder[5] + "" + TPOrder[3];
+					order = order[2] + "" + order[0] + "" + order[4] + "" + order[1] + "" + order[5] + "" + order[3];
 				}
 
 			}
@@ -403,21 +403,21 @@ public class blueHexabuttons : MonoBehaviour
 					for (int aa = 0; aa < 6; aa++)
 					{
 						diff[aa] = new float[2];
-						diff[aa][0] = (buttonMesh[TPOrder[cwpos[(aa + 1) % 6]] - '0'].transform.localPosition.x - buttonMesh[TPOrder[cwpos[aa]] - '0'].transform.localPosition.x) / 100f;
-						diff[aa][1] = (buttonMesh[TPOrder[cwpos[(aa + 1) % 6]] - '0'].transform.localPosition.z - buttonMesh[TPOrder[cwpos[aa]] - '0'].transform.localPosition.z) / 100f;
+						diff[aa][0] = (buttonMesh[order[cwpos[(aa + 1) % 6]] - '0'].transform.localPosition.x - buttonMesh[order[cwpos[aa]] - '0'].transform.localPosition.x) / 100f;
+						diff[aa][1] = (buttonMesh[order[cwpos[(aa + 1) % 6]] - '0'].transform.localPosition.z - buttonMesh[order[cwpos[aa]] - '0'].transform.localPosition.z) / 100f;
 					}
 					for (int zz = 0; zz < 100; zz++)
 					{
 						for (int aa = 0; aa < diff.Length; aa++)
 						{
-							Vector3 pos1 = buttonMesh[TPOrder[cwpos[aa]] - '0'].transform.localPosition;
+							Vector3 pos1 = buttonMesh[order[cwpos[aa]] - '0'].transform.localPosition;
 							pos1.x += diff[aa][0];
 							pos1.z += diff[aa][1];
-							buttonMesh[TPOrder[cwpos[aa]] - '0'].transform.localPosition = new Vector3(pos1.x, pos1.y, pos1.z);
+							buttonMesh[order[cwpos[aa]] - '0'].transform.localPosition = new Vector3(pos1.x, pos1.y, pos1.z);
 						}
 						yield return new WaitForSeconds(0.01f);
 					}
-					TPOrder = TPOrder[1] + "" + TPOrder[3] + "" + TPOrder[0] + "" + TPOrder[5] + "" + TPOrder[2] + "" + TPOrder[4];
+					order = order[1] + "" + order[3] + "" + order[0] + "" + order[5] + "" + order[2] + "" + order[4];
 				}
 			}
 			yield return new WaitForSeconds(1.0f);
@@ -433,7 +433,7 @@ public class blueHexabuttons : MonoBehaviour
 		}
 		hexButtons[6].OnInteract = delegate { pressedCenter(); return false; };
 		hexButtons[6].OnInteractEnded = delegate { releasedCenter(); };
-		TPOrder = TPOrder + "6";
+		TPOrder = order + "6";
 	}
 #pragma warning disable 414
 	private readonly string TwitchHelpMessage = @"!{0} press|p tl/1 tr/2 ml/3 mr/4 bl/5 br/6 c/7 presses the top-left, top-right, middle-left, middle-right, bottom-left, bottom-right, and center buttons in that order.";
