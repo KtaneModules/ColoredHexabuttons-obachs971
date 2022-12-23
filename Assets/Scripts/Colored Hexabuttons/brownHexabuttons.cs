@@ -133,7 +133,8 @@ public class brownHexabuttons : MonoBehaviour
 			hexButtons[n].OnInteract = null;
 			ledMesh[n].material = ledColors[1];
 			numButtonPresses++;
-			flip = (flip + 1) % 2;
+			if(flip != -1)
+				flip = (flip + 1) % 2;
 			if (numButtonPresses == 6)
 			{
 				moduleSolved = true;
