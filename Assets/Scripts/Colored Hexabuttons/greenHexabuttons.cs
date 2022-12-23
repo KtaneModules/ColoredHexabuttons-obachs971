@@ -1,7 +1,5 @@
-﻿using Newtonsoft.Json;
-using System;
+﻿using System;
 using System.Collections;
-using System.Collections.Generic;
 using System.Text.RegularExpressions;
 using UnityEngine;
 
@@ -294,4 +292,19 @@ public class greenHexabuttons : MonoBehaviour
 		}
 		return true;
 	}
+	IEnumerator TwitchHandleForcedSolve()
+    {
+		if (!flag)
+        {
+			hexButtons[6].OnInteract();
+			yield return new WaitForSeconds(0.3f);
+			hexButtons[6].OnInteractEnded();
+			yield return new WaitForSeconds(0.3f);
+		}
+		while (flag)
+        {
+			hexButtons[Array.IndexOf(greenNotes.ToCharArray(), solution[numButtonPresses])].OnInteract();
+			yield return new WaitForSeconds(0.3f);
+		}
+    }
 }

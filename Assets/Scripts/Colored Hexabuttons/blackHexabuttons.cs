@@ -1,7 +1,4 @@
-﻿using Newtonsoft.Json;
-using System;
-using System.Collections;
-using System.Collections.Generic;
+﻿using System.Collections;
 using System.Text.RegularExpressions;
 using UnityEngine;
 
@@ -60,7 +57,7 @@ public class blackHexabuttons : MonoBehaviour
 		blackMorse = new string[6];
 		foreach (int i in buttonIndex)
 		{
-			letters = letters + "" + alpha[UnityEngine.Random.Range(0, alpha.Length)];
+			letters = letters + "" + alpha[Random.Range(0, alpha.Length)];
 			Debug.LogFormat("[Black Hexabuttons #{0}] {1} button is transmitting {2}", moduleId, positions[i], letters[i]);
 			blackMorse[i] = morse[alpha.IndexOf(letters[i])];
 			hexButtons[i].OnInteract = delegate { StartCoroutine(pressedButton(i)); return false; };
@@ -68,11 +65,11 @@ public class blackHexabuttons : MonoBehaviour
 		blackLights = new int[7];
 		foreach (int i in buttonIndex)
 		{
-			blackLights[i] = UnityEngine.Random.Range(0, 6);
+			blackLights[i] = Random.Range(0, 6);
 			hexButtons[i].OnHighlight = delegate { ledMesh[blackLights[i]].material = ledColors[2]; };
 			hexButtons[i].OnHighlightEnded = delegate { ledMesh[blackLights[i]].material = ledColors[0]; };
 		}
-		blackLights[6] = UnityEngine.Random.Range(0, 6);
+		blackLights[6] = Random.Range(0, 6);
 		hexButtons[6].OnHighlight = delegate { ledMesh[blackLights[6]].material = ledColors[2]; };
 		hexButtons[6].OnHighlightEnded = delegate { ledMesh[blackLights[6]].material = ledColors[0]; };
 		hexButtons[7].OnInteract = delegate { deafMode = !(deafMode); return false; };
@@ -332,7 +329,6 @@ public class blackHexabuttons : MonoBehaviour
 						{
 							hexButtons[cursor].OnInteractEnded();
 							yield return new WaitForSeconds(0.2f);
-
 						}
 					}
 				}
@@ -449,4 +445,21 @@ public class blackHexabuttons : MonoBehaviour
 		}
 		return true;
 	}
+	IEnumerator TwitchHandleForcedSolve()
+    {
+		if (!flag)
+        {
+			hexButtons[6].OnInteract();
+			yield return new WaitForSeconds(0.2f);
+			hexButtons[6].OnInteractEnded();
+			yield return new WaitForSeconds(0.2f);
+		}
+		while (flag)
+        {
+			hexButtons[solution[numButtonPresses] - 1].OnInteract();
+			yield return new WaitForSeconds(0.2f);
+			hexButtons[solution[numButtonPresses] - 1].OnInteractEnded();
+			yield return new WaitForSeconds(0.2f);
+		}
+    }
 }

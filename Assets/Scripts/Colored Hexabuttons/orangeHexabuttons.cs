@@ -1,7 +1,5 @@
-﻿using Newtonsoft.Json;
-using System;
+﻿using System;
 using System.Collections;
-using System.Collections.Generic;
 using System.Text.RegularExpressions;
 using UnityEngine;
 
@@ -223,6 +221,7 @@ public class orangeHexabuttons : MonoBehaviour
 			if (numButtonPresses == 5)
 			{
 				moduleSolved = true;
+				hexButtons[7].OnInteract = null;
 				module.HandlePass();
 			}
 			else
@@ -363,4 +362,19 @@ public class orangeHexabuttons : MonoBehaviour
 		}
 		return true;
 	}
+	IEnumerator TwitchHandleForcedSolve()
+    {
+		while (!moduleSolved)
+        {
+			for (int i = 0; i < 6; i++)
+            {
+				if (solution[numButtonPresses] == scramble[i] && hexButtons[i].OnInteract != null)
+                {
+					hexButtons[i].OnInteract();
+					yield return new WaitForSeconds(0.2f);
+					break;
+				}
+            }
+        }
+    }
 }

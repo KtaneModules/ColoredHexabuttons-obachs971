@@ -81,14 +81,12 @@ public class whiteHexabuttons : MonoBehaviour
 	}
 	void Start()
 	{
-		
 		float scalar = transform.lossyScale.x;
 		foreach (Light light in lights)
 		{
 			light.enabled = false;
 			light.range *= scalar;
 		}
-		
 	}
 	void pressedCenter()
 	{
@@ -182,7 +180,7 @@ public class whiteHexabuttons : MonoBehaviour
 		}
 	}
 #pragma warning disable 414
-	private readonly string TwitchHelpMessage = @"!{0} press|p tl/1 tr/2 ml/3 mr/4 bl/5 br/6 c/7 presses the top-left, top-right, middle-left, middle-right, bottom-left, bottom-right, and center buttons in that order. !{0} hover|h tl/1 tr/2 ml/3 mr/4 bl/5 br/6 c/7 will hover the buttons in the same fashion.";
+	private readonly string TwitchHelpMessage = @"!{0} press|p tl/1 tr/2 ml/3 mr/4 bl/5 br/6 c/7 sl presses the top-left, top-right, middle-left, middle-right, bottom-left, bottom-right, center, and the status light in that order. !{0} hover|h tl/1 tr/2 ml/3 mr/4 bl/5 br/6 c/7 will hover the buttons in the same fashion.";
 #pragma warning restore 414
 	IEnumerator ProcessTwitchCommand(string command)
 	{
@@ -313,39 +311,25 @@ public class whiteHexabuttons : MonoBehaviour
 				case "5":
 				case "6":
 				case "7":
+					break;
 				case "SL":
-					break;
+					if (param[0].Equals("PRESS") || param[0].Equals("P"))
+						break;
+					else
+						return false;
 				default:
 					return false;
 			}
 		}
 		return true;
 	}
-	private bool isPos2(string[] param)
-	{
-		for (int aa = 1; aa < param.Length; aa++)
-		{
-			switch (param[aa])
-			{
-				case "TL":
-				case "TR":
-				case "ML":
-				case "MR":
-				case "BL":
-				case "BR":
-				case "C":
-				case "1":
-				case "2":
-				case "3":
-				case "4":
-				case "5":
-				case "6":
-				case "7":
-					break;
-				default:
-					return false;
-			}
+	IEnumerator TwitchHandleForcedSolve()
+    {
+		while (hexButtons[6].OnInteract == null) yield return true;
+		while (numButtonPresses != 6)
+        {
+			hexButtons[Array.IndexOf(whiteBHC.ToCharArray(), solution[numButtonPresses])].OnInteract();
+			yield return new WaitForSeconds(0.2f);
 		}
-		return true;
-	}
+    }
 }
