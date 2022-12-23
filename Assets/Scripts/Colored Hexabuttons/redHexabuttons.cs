@@ -1,7 +1,4 @@
-﻿using Newtonsoft.Json;
-using System;
-using System.Collections;
-using System.Collections.Generic;
+﻿using System.Collections;
 using System.Text.RegularExpressions;
 using UnityEngine;
 
@@ -60,8 +57,8 @@ public class redHexabuttons : MonoBehaviour
 			new int[6]{4, 1, 0, 3, 5, 2},
 			new int[6]{0, 3, 4, 5, 2, 1}
 		};
-		int pos1 = UnityEngine.Random.Range(0, chart.Length);
-		int pos2 = UnityEngine.Random.Range(0, 6);
+		int pos1 = Random.Range(0, chart.Length);
+		int pos2 = Random.Range(0, 6);
 		voiceMessage = new string[2] { "ABCDEFGHIJKLMNOPQRSTUVWXYZ"[pos1] + "", (pos2 + 1) + "" };
 		Debug.LogFormat("[Red Hexabuttons #{0}] Generated Message: {1}{2}", moduleId, voiceMessage[0], voiceMessage[1]);
 		solution = new int[6];
@@ -190,12 +187,6 @@ public class redHexabuttons : MonoBehaviour
 					{
 						hexButtons[cursor].OnInteract();
 						yield return new WaitForSeconds(0.2f);
-						if (hexButtons[cursor].OnInteractEnded != null)
-						{
-							hexButtons[cursor].OnInteractEnded();
-							yield return new WaitForSeconds(0.2f);
-
-						}
 					}
 				}
 			}
@@ -233,4 +224,12 @@ public class redHexabuttons : MonoBehaviour
 		}
 		return true;
 	}
+	IEnumerator TwitchHandleForcedSolve()
+    {
+		while (!moduleSolved)
+        {
+			hexButtons[solution[numButtonPresses]].OnInteract();
+			yield return new WaitForSeconds(0.2f);
+		}
+    }
 }

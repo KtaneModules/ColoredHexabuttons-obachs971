@@ -1,5 +1,4 @@
-﻿using Newtonsoft.Json;
-using System;
+﻿using System;
 using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
@@ -72,6 +71,7 @@ public class yellowHexabuttons : MonoBehaviour
 	private bool moduleSolved;
 	private string[] positions = { "TL", "TR", "ML", "MR", "BL", "BR", "C" };
 	private int[] buttonIndex = { 0, 1, 2, 3, 4, 5 };
+	private int[] order = new int[6];
 	private float[][] shapeSizes =
 	{
 		new float[]{0.046f, 0.00323f, 0.046f},//Circle
@@ -89,7 +89,6 @@ public class yellowHexabuttons : MonoBehaviour
 	private float[] shapeHLPositions = { -0.5f, -0.5f, -0.24f, -0.5f, -0.24f, -0.025f, -0.5f, -0.5f, -0.35f, -0.016f };
 	private string[] shapeNames = { "CIRCLE", "TRIANGLE", "SQUARE", "PENTAGON", "HEXAGON", "OCTAGON", "HEART", "STAR", "CRESCENT", "CROSS" };
 	private string[] dirNames = { "N", "NE", "SE", "S", "SW", "NW" };
-	private string yellowShapes;
 	private int[] yellowRC;
 	void Awake()
 	{
@@ -120,7 +119,6 @@ public class yellowHexabuttons : MonoBehaviour
 			"840316257 "
 		};
 		int accum = 0;
-		int[] order = new int[6];
 		string buttonPriority = "";
 		for (int aa = 0; aa < 9; aa++)
 		{
@@ -504,7 +502,6 @@ public class yellowHexabuttons : MonoBehaviour
 						{
 							hexButtons[cursor].OnInteractEnded();
 							yield return new WaitForSeconds(0.2f);
-
 						}
 					}
 				}
@@ -542,5 +539,61 @@ public class yellowHexabuttons : MonoBehaviour
 			}
 		}
 		return true;
+	}
+	IEnumerator TwitchHandleForcedSolve()
+	{
+		var q = new Queue<int[]>();
+		var allMoves = new List<Movement>();
+		var startPoint = new int[] { yellowRC[0], yellowRC[1] };
+		var target = new int[2];
+		q.Enqueue(startPoint);
+		while (q.Count > 0)
+		{
+			var next = q.Dequeue();
+			if (yellowMaze[next[0]][next[1]] == voiceMessage[2] + voiceMessage[3])
+            {
+				target[0] = next[0];
+				target[1] = next[1];
+				goto readyToSubmit;
+			}
+			var offsets = new int[,] { { -1, 0 }, { -1, 1 }, { 1, 1 }, { 1, 0 }, { 1, -1 }, { -1, -1 } };
+			var offsets2 = new int[,] { { -4, 0 }, { -2, 2 }, { 2, 2 }, { 4, 0 }, { 2, -2 }, { -2, -2 } };
+			for (int i = 0; i < 6; i++)
+			{
+				var check = new int[] { next[0] + offsets[order[i], 0], next[1] + offsets[order[i], 1] };
+				var check2 = new int[] { next[0] + offsets2[order[i], 0], next[1] + offsets2[order[i], 1] };
+				if (!yellowMaze[check[0]][check[1]].Equals("W") && !allMoves.Any(x => x.start[0] == check2[0] && x.start[1] == check2[1]))
+				{
+					q.Enqueue(check2);
+					allMoves.Add(new Movement { start = next, end = check2, direction = i });
+				}
+			}
+		}
+		throw new InvalidOperationException("There is a bug in Yellow Hexabutton's TP autosolver.");
+		readyToSubmit:
+		KMSelectable[] hexBtns = new KMSelectable[] { hexButtons[0], hexButtons[1], hexButtons[2], hexButtons[3], hexButtons[4], hexButtons[5] };
+		var lastMove = allMoves.First(x => x.end[0] == target[0] && x.end[1] == target[1]);
+		var relevantMoves = new List<Movement> { lastMove };
+		while (lastMove.start != startPoint)
+		{
+			lastMove = allMoves.First(x => x.end[0] == lastMove.start[0] && x.end[1] == lastMove.start[1]);
+			relevantMoves.Add(lastMove);
+		}
+		for (int i = 0; i < relevantMoves.Count; i++)
+		{
+			hexBtns[relevantMoves[relevantMoves.Count - 1 - i].direction].OnInteract();
+			yield return new WaitForSeconds(.2f);
+			if (hexBtns[relevantMoves[relevantMoves.Count - 1 - i].direction].OnInteractEnded != null)
+            {
+				hexBtns[relevantMoves[relevantMoves.Count - 1 - i].direction].OnInteractEnded();
+				yield return new WaitForSeconds(.2f);
+			}
+		}
+	}
+	class Movement
+	{
+		public int[] start;
+		public int[] end;
+		public int direction;
 	}
 }

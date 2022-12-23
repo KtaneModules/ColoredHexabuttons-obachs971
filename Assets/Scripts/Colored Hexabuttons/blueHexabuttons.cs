@@ -1,7 +1,7 @@
-﻿using Newtonsoft.Json;
-using System;
+﻿using System;
 using System.Collections;
 using System.Collections.Generic;
+using System.Linq;
 using System.Text.RegularExpressions;
 using UnityEngine;
 
@@ -16,6 +16,7 @@ public class blueHexabuttons : MonoBehaviour
 	public TextMesh[] buttonText;
 	public Material[] ledColors;
 	public MeshRenderer[] ledMesh;
+	private bool moduleSolved;
 	private int[] solution;
 	private int[] blueRotations;
 	private int[] blueButtonValues;
@@ -118,6 +119,7 @@ public class blueHexabuttons : MonoBehaviour
 			numButtonPresses++;
 			if (numButtonPresses == 6)
 			{
+				moduleSolved = true;
 				hexButtons[6].OnInteract = null;
 				hexButtons[6].OnInteractEnded = null;
 				module.HandlePass();
@@ -431,8 +433,11 @@ public class blueHexabuttons : MonoBehaviour
 			hexButtons[6].transform.localPosition = new Vector3(pos.x, pos.y, pos.z);
 			yield return new WaitForSeconds(0.02f);
 		}
-		hexButtons[6].OnInteract = delegate { pressedCenter(); return false; };
-		hexButtons[6].OnInteractEnded = delegate { releasedCenter(); };
+		if (!(moduleSolved))
+        {
+			hexButtons[6].OnInteract = delegate { pressedCenter(); return false; };
+			hexButtons[6].OnInteractEnded = delegate { releasedCenter(); };
+		}
 		TPOrder = order + "6";
 	}
 #pragma warning disable 414
@@ -488,7 +493,6 @@ public class blueHexabuttons : MonoBehaviour
 						{
 							hexButtons[TPOrder[cursor] - '0'].OnInteractEnded();
 							yield return new WaitForSeconds(0.2f);
-
 						}
 					}
 				}
@@ -526,4 +530,20 @@ public class blueHexabuttons : MonoBehaviour
 		}
 		return true;
 	}
+	IEnumerator TwitchHandleForcedSolve()
+    {
+		if (flag)
+        {
+			hexButtons[6].OnInteract();
+			yield return new WaitForSeconds(0.2f);
+			hexButtons[6].OnInteractEnded();
+			yield return new WaitForSeconds(0.2f);
+		}
+		while (hexButtons.All(x => x.OnInteract == null)) yield return true;
+		while (!moduleSolved)
+        {
+			hexButtons[Array.IndexOf(blueButtonValues, solution[numButtonPresses])].OnInteract();
+			yield return new WaitForSeconds(0.2f);
+		}
+    }
 }
