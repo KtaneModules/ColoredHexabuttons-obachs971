@@ -1,7 +1,4 @@
-﻿using Newtonsoft.Json;
-using System;
-using System.Collections;
-using System.Collections.Generic;
+﻿using System.Collections;
 using System.Text.RegularExpressions;
 using UnityEngine;
 
@@ -36,37 +33,37 @@ public class purpleHexabuttons : MonoBehaviour
 		};
 		string pos1 = "012345";
 		string pos0 = "";
-		int num0 = UnityEngine.Random.Range(2, 5);
+		int num0 = Random.Range(2, 5);
 		for (int aa = 0; aa < num0; aa++)
 		{
-			pos0 = pos0 + "" + pos1[UnityEngine.Random.Range(0, pos1.Length)];
+			pos0 = pos0 + "" + pos1[Random.Range(0, pos1.Length)];
 			bins[0][pos0[aa] - '0'] = 0;
 			pos1 = pos1.Replace(pos0[aa] + "", "");
 		}
 		string pos2 = "012345";
 		for (int aa = 0; aa < 2; aa++)
 		{
-			int n = pos0[UnityEngine.Random.Range(0, pos0.Length)] - '0';
+			int n = pos0[Random.Range(0, pos0.Length)] - '0';
 			bins[1][n] = aa;
 			pos0 = pos0.Replace(n + "", "");
 			pos2 = pos2.Replace(n + "", "");
 		}
 		for (int aa = 0; aa < 2; aa++)
 		{
-			int n = pos1[UnityEngine.Random.Range(0, pos1.Length)] - '0';
+			int n = pos1[Random.Range(0, pos1.Length)] - '0';
 			bins[1][n] = aa;
 			pos1 = pos1.Replace(n + "", "");
 			pos2 = pos2.Replace(n + "", "");
 		}
-		num0 = UnityEngine.Random.Range(0, 3);
+		num0 = Random.Range(0, 3);
 		for (int aa = 0; aa < num0; aa++)
 		{
-			int n = pos2[UnityEngine.Random.Range(0, pos2.Length)] - '0';
+			int n = pos2[Random.Range(0, pos2.Length)] - '0';
 			bins[1][n] = 0;
 			pos2 = pos2.Replace(n + "", "");
 		}
 		string[] opers = { "AND", "OR", "XOR", "NAND", "NOR", "XNOR", "->", "<-", "!->", "<-!" };
-		int oper = UnityEngine.Random.Range(0, opers.Length);
+		int oper = Random.Range(0, opers.Length);
 		for (int aa = 0; aa < 6; aa++)
 		{
 			switch (oper)
@@ -180,8 +177,8 @@ public class purpleHexabuttons : MonoBehaviour
 		numbers[2] = 0;
 		for (int aa = 0; aa < 6; aa++)
 		{
-			bins[0][aa] = UnityEngine.Random.Range(0, 2);
-			bins[1][aa] = UnityEngine.Random.Range(0, 2);
+			bins[0][aa] = Random.Range(0, 2);
+			bins[1][aa] = Random.Range(0, 2);
 			bins[2][aa] = 0;
 			switch (oper)
 			{
@@ -273,7 +270,7 @@ public class purpleHexabuttons : MonoBehaviour
 					n = 3;
 					break;
 			}
-			buttonText[solution[i]].text = randomAlpha[n + (4 * UnityEngine.Random.Range(0, 9))] + "";
+			buttonText[solution[i]].text = randomAlpha[n + (4 * Random.Range(0, 9))] + "";
 		}
 		string numberDigits = "";
 		for (int aa = 0; aa < 3; aa++)
@@ -461,5 +458,13 @@ public class purpleHexabuttons : MonoBehaviour
 			}
 		}
 		return true;
+	}
+	IEnumerator TwitchHandleForcedSolve()
+	{
+		while (!moduleSolved)
+		{
+			hexButtons[solution[numButtonPresses]].OnInteract();
+			yield return new WaitForSeconds(0.2f);
+		}
 	}
 }

@@ -1,7 +1,4 @@
-﻿using Newtonsoft.Json;
-using System;
-using System.Collections;
-using System.Collections.Generic;
+﻿using System.Collections;
 using System.Text.RegularExpressions;
 using UnityEngine;
 
@@ -58,9 +55,9 @@ public class brownHexabuttons : MonoBehaviour
 		present = new int[6];
 		foreach (int i in buttonIndex)
 		{
-			present[i] = (choices[UnityEngine.Random.Range(0, choices.Length)] - '0');
+			present[i] = (choices[Random.Range(0, choices.Length)] - '0');
 			hexButtons[i].OnInteract = delegate { pressedButton(i, present[i]); return false; };
-			buttonText[i].text = alpha[present[i] + (8 * UnityEngine.Random.Range(0, 4))] + "";
+			buttonText[i].text = alpha[present[i] + (8 * Random.Range(0, 4))] + "";
 			choices = choices.Replace(present[i] + "", "");
 			Debug.LogFormat("[Brown Hexabuttons #{0}] {1} button's text: {2}", moduleId, positions[i], buttonText[i].text);
 			Debug.LogFormat("[Brown Hexabuttons #{0}] {1} button's chemical: {2}", moduleId, positions[i], chemicalNames[present[i]]);
@@ -72,15 +69,15 @@ public class brownHexabuttons : MonoBehaviour
 			Debug.LogFormat("[Brown Hexabuttons #{0}] Absent chemical #{1}: {2}", moduleId, (aa + 1), chemicalNames[absent[aa]]);
 		}
 		choices = "012345";
-		int offset = UnityEngine.Random.Range(0, 2);
+		int offset = Random.Range(0, 2);
 		while (offset == 0)
-			offset = UnityEngine.Random.Range(0, 2);
+			offset = Random.Range(0, 2);
 		solution = new string[6];
 		voiceMessage = new string[6];
 		alpha = "ALCHEMY";
 		for (int aa = 0; aa < 6; aa++)
 		{
-			int c1 = (choices[UnityEngine.Random.Range(0, choices.Length)] - '0');
+			int c1 = (choices[Random.Range(0, choices.Length)] - '0');
 			int c2 = (aa + offset) % 2;
 			solution[aa] = getResult(chemicals[present[c1]], chemicals[absent[c2]]);
 			choices = choices.Replace(c1 + "", "");
