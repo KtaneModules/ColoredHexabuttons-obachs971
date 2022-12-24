@@ -1,4 +1,6 @@
 ﻿using System.Collections;
+using System.Collections.Generic;
+using System.Linq;
 using System.Text.RegularExpressions;
 using UnityEngine;
 
@@ -293,5 +295,91 @@ public class brownHexabuttons : MonoBehaviour
 			}
 		}
 		return true;
+	}
+	IEnumerator TwitchHandleForcedSolve()
+	{
+		redo:
+		var q = new Queue<List<int>>();
+		var allMoves = new List<StateChange>();
+		var startPoint = new List<int>();
+		List<int> target;
+		for (int i = 0; i < 6; i++)
+			if (hexButtons[i].OnInteract == null)
+				startPoint.Add(i);
+		q.Enqueue(startPoint);
+		while (q.Count > 0)
+		{
+			var next = q.Dequeue();
+			if (next.Count == 6)
+            {
+				target = next.ToList();
+				goto readyToSubmit;
+			}
+			for (int i = 0; i < 6; i++)
+            {
+				int f = flip;
+				if (next.Count != startPoint.Count)
+					f = allMoves.Where(x => x.end.SequenceEqual(next)).First().f;
+				if (!next.Contains(i))
+                {
+					string results;
+					if (f == -1)
+					{
+						string[] r = { getResult(chemicals[present[i]], chemicals[absent[0]]), getResult(chemicals[present[i]], chemicals[absent[1]]) };
+						if (r[0].Equals(solution[numButtonPresses]) && r[1].Equals(solution[numButtonPresses]))
+						{
+							f = -1;
+							results = getResult(chemicals[present[i]], chemicals[absent[0]]);
+						}
+						else if (r[0].Equals(solution[numButtonPresses]))
+						{
+							f = 0;
+							results = getResult(chemicals[present[i]], chemicals[absent[0]]);
+						}
+						else
+						{
+							f = 1;
+							results = getResult(chemicals[present[i]], chemicals[absent[1]]);
+						}
+					}
+					else
+						results = getResult(chemicals[present[i]], chemicals[absent[f]]);
+					if (results.Equals(solution[next.Count]))
+					{
+						List<int> newNext = next.ToList();
+						newNext.Add(i);
+						if (f != -1)
+							f = (f + 1) % 2;
+						q.Enqueue(newNext);
+						allMoves.Add(new StateChange { start = next, end = newNext, btn = i, f = f });
+					}
+				}
+            }
+		}
+		while (hexButtons[6].OnInteract == null) yield return true;
+		hexButtons[6].OnInteract();
+		yield return new WaitForSeconds(.2f);
+		goto redo;
+		readyToSubmit:
+		KMSelectable[] hexBtns = new KMSelectable[] { hexButtons[0], hexButtons[1], hexButtons[2], hexButtons[3], hexButtons[4], hexButtons[5] };
+		var lastState = allMoves.First(x => x.end.SequenceEqual(target));
+		var relevantMoves = new List<StateChange> { lastState };
+		while (!lastState.start.SequenceEqual(startPoint))
+		{
+			lastState = allMoves.First(x => x.end.SequenceEqual(lastState.start));
+			relevantMoves.Add(lastState);
+		}
+		for (int i = 0; i < relevantMoves.Count; i++)
+		{
+			hexBtns[relevantMoves[relevantMoves.Count - 1 - i].btn].OnInteract();
+			yield return new WaitForSeconds(.2f);
+		}
+	}
+	class StateChange
+	{
+		public List<int> start;
+		public List<int> end;
+		public int btn;
+		public int f;
 	}
 }
