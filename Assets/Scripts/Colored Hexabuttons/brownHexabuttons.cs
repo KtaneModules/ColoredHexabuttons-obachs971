@@ -22,11 +22,11 @@ public class brownHexabuttons : MonoBehaviour
 	private bool moduleSolved;
 	private int[] present;
 	private int[] absent;
-	private string[] positions = { "TL", "TR", "ML", "MR", "BL", "BR" };
-	private int[] buttonIndex = { 0, 1, 2, 3, 4, 5 };
-	private string[] chemicals = { "B+B+B+", "B-B-B-", "B+S+S-", "B-S-S+", "S-B+S+", "S+B-S-", "S+S-B+", "S-S+B-" };
+	private readonly string[] positions = { "TL", "TR", "ML", "MR", "BL", "BR" };
+	private readonly int[] buttonIndex = { 0, 1, 2, 3, 4, 5 };
+	private readonly string[] chemicals = { "B+B+B+", "B-B-B-", "B+S+S-", "B-S-S+", "S-B+S+", "S+B-S-", "S+S-B+", "S-S+B-" };
 	private int flip = -1;
-	private string[][] potionTable =
+	private readonly string[][] potionTable =
 	{
 		new string[]{"R-", "R+", "G+", "B-", "G-", "N"},
 		new string[]{"G-", "B+", "R-", "N", "R+", "B-"},
@@ -220,8 +220,8 @@ public class brownHexabuttons : MonoBehaviour
 				yield return null;
 				for (int i = 1; i < param.Length; i++)
 				{
-					int cursor = -1;
-					switch (param[i])
+                    int cursor;
+                    switch (param[i])
 					{
 						case "TL":
 						case "1":
@@ -262,11 +262,7 @@ public class brownHexabuttons : MonoBehaviour
 					}
 				}
 			}
-			else
-				yield return "sendtochat An error occured because the user inputted something wrong.";
 		}
-		else
-			yield return "sendtochat An error occured because the user inputted something wrong.";
 	}
 	private bool isPos(string[] param)
 	{

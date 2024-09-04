@@ -17,8 +17,8 @@ public class redHexabuttons : MonoBehaviour
 	private string[] voiceMessage;
 	private int[] solution;
 	private int numButtonPresses;
-	private string[] positions = { "TL", "TR", "ML", "MR", "BL", "BR" };
-	private int[] buttonIndex = { 0, 1, 2, 3, 4, 5 };
+	private readonly string[] positions = { "TL", "TR", "ML", "MR", "BL", "BR" };
+	private readonly int[] buttonIndex = { 0, 1, 2, 3, 4, 5 };
 	private bool deafMode = false;
 	void Awake()
 	{
@@ -148,7 +148,7 @@ public class redHexabuttons : MonoBehaviour
 				yield return null;
 				for (int i = 1; i < param.Length; i++)
 				{
-					int cursor = -1;
+					int cursor;
 					switch (param[i])
 					{
 						case "TL":
@@ -190,11 +190,7 @@ public class redHexabuttons : MonoBehaviour
 					}
 				}
 			}
-			else
-				yield return "sendtochat An error occured because the user inputted something wrong.";
 		}
-		else
-			yield return "sendtochat An error occured because the user inputted something wrong.";
 	}
 	private bool isPos(string[] param)
 	{
