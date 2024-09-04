@@ -18,8 +18,8 @@ public class purpleHexabuttons : MonoBehaviour
 	private int[] solution;
 	private int numButtonPresses;
 	private bool moduleSolved;
-	private string[] positions = { "TL", "TR", "ML", "MR", "BL", "BR" };
-	private int[] buttonIndex = { 0, 1, 2, 3, 4, 5 };
+	private readonly string[] positions = { "TL", "TR", "ML", "MR", "BL", "BR" };
+	private readonly int[] buttonIndex = { 0, 1, 2, 3, 4, 5 };
 	private bool deafMode = false;
 	void Awake()
 	{
@@ -383,7 +383,7 @@ public class purpleHexabuttons : MonoBehaviour
 				yield return null;
 				for (int i = 1; i < param.Length; i++)
 				{
-					int cursor = -1;
+					int cursor;
 					switch (param[i])
 					{
 						case "TL":
@@ -425,11 +425,7 @@ public class purpleHexabuttons : MonoBehaviour
 					}
 				}
 			}
-			else
-				yield return "sendtochat An error occured because the user inputted something wrong.";
 		}
-		else
-			yield return "sendtochat An error occured because the user inputted something wrong.";
 	}
 	private bool isPos(string[] param)
 	{
